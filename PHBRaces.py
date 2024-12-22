@@ -169,3 +169,18 @@ HighElfFeatureList = [ElfWeaponTraining,Cantrip,ExtraLanguage]
 HighElf = subrace("High Elf", Elf, HighElfBonuses,HighElfFeatureList)
 
 
+Lucky = feature("Lucky","Race", "When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die. You must use the new result, even if it is a 1.")
+Brave = feature("Brave","Race", "You have advantage on saving throws against being frightened.")
+Nimble = feature("Nimble","Race","You can move through the space of any creature that is of a size larger than yours.")
+
+Halfling = race("Halfling","Small",25,{"Dexterity": 2},{"language": ["Common","Halfling"]}, [Lucky, Brave, Nimble], needsSubrace=True)
+
+
+NaturallyStealthy = feature("Naturally Stealthy","Subrace","You can attempt to hide even when you are only obscured by a creature that is at least one size larger than you.")
+LightfootHalfling = subrace("Lightfoot Halfling",Halfling,{"Charisma": 1},[NaturallyStealthy])
+
+
+StoutResiliance = feature("Stout Resiliance","Subrace","You have advantage on saving throws against poison, and you have resistance to poison damage.")
+def StoutResilianceFunc(character): 
+    addToList(character.damageResistances,"Poison")
+StoutHalfling = subrace("Stout Halfling",Halfling,{"Constitution": 1},[StoutResiliance],function = StoutResilianceFunc)
