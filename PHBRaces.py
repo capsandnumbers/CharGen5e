@@ -104,7 +104,8 @@ Trance = feature("Trance","Race",TranceDesc,showText = TranceShowText)
 
 KeenSensesDesc = "You have proficiency in the Perception skill."
 def KeenSensesFunc(character):
-    character.addToList(character.skillProfs,"Perception")
+    #character.addToList(character.skillProfs,"Perception")
+    character.addProficiency({"weapon": "Perception"} # Might work or might not! 
 KeenSenses = feature("KeenSenses","Race",KeenSensesDesc,function = KeenSensesFunc,hideFeature = True)
 
 # Shared by both subraces, so placing here
@@ -180,7 +181,44 @@ NaturallyStealthy = feature("Naturally Stealthy","Subrace","You can attempt to h
 LightfootHalfling = subrace("Lightfoot Halfling",Halfling,{"Charisma": 1},[NaturallyStealthy])
 
 
-StoutResiliance = feature("Stout Resiliance","Subrace","You have advantage on saving throws against poison, and you have resistance to poison damage.")
+
 def StoutResilianceFunc(character): 
     addToList(character.damageResistances,"Poison")
-StoutHalfling = subrace("Stout Halfling",Halfling,{"Constitution": 1},[StoutResiliance],function = StoutResilianceFunc)
+StoutResiliance = feature("Stout Resiliance","Subrace","You have advantage on saving throws against poison, and you have resistance to poison damage.",,function = StoutResilianceFunc)
+StoutHalfling = subrace("Stout Halfling",Halfling,{"Constitution": 1},[StoutResiliance])
+
+
+
+
+
+
+
+
+
+Dragonborn = race("Dragonborn", "Medium",30,{"Strength":2,"Charisma":1},{"language": ["Common","Draconic"]},[], NeedsSubrace = True)
+
+
+
+DraconicAncestryBlackDesc
+BlackDragonborn = subrace("Black Dragonborn",Dragonborn,{},[DraconicAncestryBlack])
+
+
+
+Draconic Ancestry. You are distantly related to a particular kind of dragon. Choose a type of dragon from the below list; this determines the damage and area of your breath weapon, and the type of resistance you gain.
+Dragon Color	Damage Type	Breath Weapon
+Black	Acid	5 by 30 ft. line (DEX save)
+Blue	Lightning	5 by 30 ft. line (DEX save)
+Brass	Fire	5 by 30 ft. line (DEX save)
+Bronze	Lightning	5 by 30 ft. line (DEX save)
+Copper	Acid	5 by 30 ft. line (DEX save)
+Gold	Fire	15 ft. cone (DEX save)
+Green	Poison	15 ft. cone (CON save)
+Red	Fire	15 ft. cone (DEX save)
+Silver	Cold	15 ft. cone (CON save)
+White	Cold	15 ft. cone (CON save)
+Breath Weapon. You can use your action to exhale destructive energy. It deals damage in an area according to your ancestry. When you use your breath weapon, all creatures in the area must make a saving throw, the type of which is determined by your ancestry. The DC of this saving throw is 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increase to 3d6 at 6th level, 4d6 at 11th, and 5d6 at 16th level. After using your breath weapon, you cannot use it again until you complete a short or long rest.
+Damage Resistance. You have resistance to the damage type associated with your ancestry.
+
+
+
+
