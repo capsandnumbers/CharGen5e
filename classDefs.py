@@ -40,6 +40,36 @@ allProfs = {
 
 
 
+
+
+# Fill in using a spreadsheet/webscraping. Can extend with school, range, action type, components, ritual/concentration tags
+grimoire = { 
+    "Light": {
+        "level": 0,  # Cantrips are level 0
+        "description": "Create light",
+        "range": "Touch",
+        "components": ["V", "M"],
+        "material": "A firefly or phosphorescent moss"
+    "Mage Hand": {
+        "level": 0,  # Cantrips are level 0
+        "description": "Create a spectral hand that can manipulate objects",
+        "range": "30 feet",
+        "components": ["V", "S"],
+        "material": None
+    },
+    "Prestidigitation": {
+        "level": 0,  # Cantrips are level 0
+        "description": "Minor arcane tricks",
+        "range": "10 feet",
+        "components": ["V", "S"],
+        "material": None
+    },
+}
+
+wizardSpellList = ["Light", "Nage Hand", "Prestidigitation"]
+
+
+# Would some of these be better as dictionaries?
 class charClass():
     def __init__(self, name, HD, abilityPreference, saveProfs, classSkills, skillsToChoose, proficiencies, featureList):
         setupInputArgs(self,inspect.currentframe())
