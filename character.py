@@ -26,6 +26,7 @@ class character():
             "Charisma": 0,
         }
 
+        self.spellDict = {} # Records list of spells with relevant spellcasting ability
 
         self.HP = int(0)
         self.HPRolls = []
