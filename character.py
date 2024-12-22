@@ -204,6 +204,7 @@ class character():
 
         # Get speed
         self.speed = self.race.speed
+        self.size = self.race.size
         
         # Add proficiencies
         self.addProficiency(self.race.proficiencies)
