@@ -41,9 +41,10 @@ class character():
         self.spells = []
 
         # Lists of strings
-        self.skillProfs = []
+        # self.skillProfs = []
 
         self.proficiencies = {
+            "skill": [],
             "armor": [],
             "weapon": [],
             "tool": [],
@@ -194,37 +195,33 @@ class character():
     def applyRace(self): # And subrace
         
         # Add race and subrace bonuses to ability scores
-        #self.abilities += self.race.abilityBonus
-
         for ability, bonus in self.race.abilityBonus.items():
            self.abilities[ability] = self.abilities.get(ability) + bonus
         
         
-        # print(self.abilities)
- 
 
-        # Get speed
+        # Get speed and size
         self.speed = self.race.speed
         self.size = self.race.size
         
         # Add proficiencies
         self.addProficiency(self.race.proficiencies)
-        #addToList(self.proficiencies, self.race.proficiencies)
-
+        
     
 
 
 
     def applyClass(self):
-        availableSkills = self.charClass.classSkills
-        for skill in self.skillProfs:
-            if skill in availableSkills:
-                availableSkills.remove(skill)
-        classSkillChoices = arrayChoose(availableSkills,self.charClass.skillsToChoose)
+        #availableSkills = self.charClass.classSkills
+        #for skill in self.skillProfs:
+        #    if skill in availableSkills:
+        #        availableSkills.remove(skill)
+        eligibleSkills = [skill for skill in self.charClass.classSkills if skill not in self.proficiencies["skill"] ]
+        choices = r.sample(eligibleSkills,self.charClass.skillsToChoose)
         addToList(self.skillProfs,classSkillChoices)
     
         # Add proficiencies
-
+        self.addProficiency(choices)
         self.addProficiency(self.charClass.proficiencies)
 
         addToList(self.savingThrows,self.charClass.saveProfs)
