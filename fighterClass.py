@@ -216,7 +216,9 @@ def ElegantCourtierFunc(character):
         if "Wisdom" in character.savingThrows:
             eligibleSaves = [save for save in ["Intelligence", "Charisma"] if save not in character.savingThrows]
             chosenSave = r.choice(eligibleSaves)
-            character.addToList(chosenSave)            
+            character.addToList(character.savingThrows,chosenSave)
+        else:
+            character.addToList(character.savingThrows,"Wisdom")
 
 ElegantCourtier = feature("Elegant Courtier","Subclass",ElegantCourtierDesc,7,function=ElegantCourtierFunc,showText=ElegantCourtierShowText)
 
