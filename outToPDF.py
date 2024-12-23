@@ -1,3 +1,5 @@
+# outToPDF
+
 import pdfrw
 import header
 
@@ -14,26 +16,26 @@ def printCharSheet(character):
     form_data = {
         'Background': character.background.name,
         'CHA': str(character.abilities["Charisma"]),
-        'CHamod': str(header.abMod(character.abilities["Charisma"])),
+        'CHamod': str(abMod(character.abilities["Charisma"])),
         'CharacterName': character.name,
         'Check Box 12': "Y",
         'ClassLevel': str(character.charClass.name) + " " + str(character.level),
         'CON': str(character.abilities["Constitution"]),
-        'CONmod': str(header.abMod(character.abilities["Constitution"])),
+        'CONmod': str(abMod(character.abilities["Constitution"])),
         'DEX': str(character.abilities["Dexterity"]),
-        'DEXmod': str(header.abMod(character.abilities["Dexterity"])),
+        'DEXmod': str(abMod(character.abilities["Dexterity"])),
         'HPCurrent': str(character.HP),
         'HPMax': str(character.HP),
         'INT': str(character.abilities["Intelligence"]),
-        'INTmod': str(header.abMod(character.abilities["Constitution"])),
+        'INTmod': str(abMod(character.abilities["Constitution"])),
         'PlayerName': character.rank,
         'ProfBonus': str(character.profBonus),
         'Race ': character.race.name,
         'Speed': str(character.speed) + " ft.",
         'STR': str(character.abilities["Strength"]),
-        'STRmod': str(header.abMod(character.abilities["Strength"])),
+        'STRmod': str(abMod(character.abilities["Strength"])),
         'WIS': str(character.abilities["Wisdom"]),
-        'WISmod': str(header.abMod(character.abilities["Intelligence"])),
+        'WISmod': str(abMod(character.abilities["Intelligence"])),
 
 
 
@@ -45,12 +47,12 @@ def printCharSheet(character):
             if annotation['/Subtype'] == '/Widget':
                 try:
                     form_name = annotation['/T'].to_unicode()
-                    print(f'{form_name=}')
+                    #print(f'{form_name=}')
                 except: 
                     continue
 
                 if form_name in form_data:
-                    print(form_data[form_name])
+                    #print(form_data[form_name])
                     value = pdfrw.objects.pdfstring.PdfString.encode(
                         form_data[form_name]
                     )
