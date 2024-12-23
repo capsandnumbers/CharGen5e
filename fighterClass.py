@@ -127,6 +127,87 @@ Fighter = charClass("Fighter",10,["Strength","Constitution"],["Strength","Consti
 #################################################################################
 #################################################################################
 
+ManeuverCodex = { 
+    # Update these with functions one day
+    "Commander's Strike": "When you take the Attack action on your turn, you can forgo one of your attacks and use a bonus action to direct one of your companions to strike. When you do so, choose a friendly creature who can see or hear you and expend one superiority die. That creature can immediately use its reaction to make one weapon attack, adding the superiority die to the attack's damage roll.",
+    "Disarming Attack": "When you hit a creature with a weapon attack, you can expend one superiority die to attempt to disarm the target, forcing it to drop one item of your choice that it's holding. You add the superiority die to the attack's damage roll, and the target must make a Strength saving throw. On a failed save, it drops the object you choose. The object lands at its feet.",
+    "Distracting Strike": "When you hit a creature with a weapon attack, you can expend one superiority die to distract the creature, giving your allies an opening. You add the superiority die to the attack's damage roll. The next attack roll against the target by an attacker other than you has advantage if the attack is made before the start of your next turn.",
+    "Evasive Footwork": "When you move, you can expend one superiority die, rolling the die and adding the number rolled to your AC until you stop moving.",
+    "Feinting Attack": "You can expend one superiority die and use a bonus action on your turn to feint, choosing one creature within 5 feet of you as your target. You have advantage on your next attack roll against that creature this turn. If that attack hits, add the superiority die to the attack's damage roll.",
+    "Goading Attack": "When you hit a creature with a weapon attack, you can expend one superiority die to attempt to goad the target into attacking you. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw. On a failed save, the target has disadvantage on all attack rolls against targets other than you until the end of your next turn.",
+    "Lunging Attack": "When you make a melee weapon attack on your turn, you can expend one superiority die to increase your reach for that attack by 5 feet. If you hit, you add the superiority die to the attack's damage roll.",
+    "Maneuvering Attack": "When you hit a creature with a weapon attack, you can expend one superiority die to maneuver one of your comrades into a more advantageous position. You add the superiority die to the attack's damage roll, and you choose a friendly creature who can see or hear you. That creature can use its reaction to move up to half its speed without provoking opportunity attacks from the target of your attack.",
+    "Menacing Attack": "When you hit a creature with a weapon attack, you can expend one superiority die to attempt to frighten the target. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw. On a failed save, it is frightened of you until the end of your next turn.",
+    "Parry": "When another creature damages you with a melee attack, you can use your reaction and expend one superiority die to reduce the damage by the number you roll on your superiority die + your Dexterity modifier.",
+    "Precision Attack": "When you make a weapon attack roll against a creature, you can expend one superiority die to add it to the roll. You can use this maneuver before or after making the attack roll, but before any effects of the attack are applied.",
+    "Pushing Attack": "When you hit a creature with a weapon attack, you can expend one superiority die to attempt to drive the target back. You add the superiority die to the attack's damage roll, and if the target is Large or smaller, it must make a Strength saving throw. On a failed save, you push the target up to 15 feet away from you.",
+    "Rally": "On your turn, you can use a bonus action and expend one superiority die to bolster the resolve of one of your companions. When you do so, choose a friendly creature who can see or hear you. That creature gains temporary hit points equal to the superiority die roll + your Charisma modifier.",
+    "Riposte": "When a creature misses you with a melee attack, you can use your reaction and expend one superiority die to make a melee weapon attack against the creature. If you hit, you add the superiority die to the attack's damage roll.",
+    "Sweeping Attack": "When you hit a creature with a melee weapon attack, you can expend one superiority die to attempt to damage another creature with the same attack. Choose another creature within 5 feet of the original target and within your reach. If the original attack roll would hit the second creature, it takes damage equal to the number you roll on your superiority die. The damage is of the same type dealt by the original attack.",
+    "Trip Attack": "When you hit a creature with a weapon attack, you can expend one superiority die to attempt to knock the target down. You add the superiority die to the attack's damage roll, and if the target is Large or smaller, it must make a Strength saving throw. On a failed save, you knock the target prone."
+}
+    
+
+    
+CombatSuperiorityDesc = ""
+CombatSuperiorityShowText = ""
+def addManeuver(character,number):
+    eligibleManeuvers = [maneuver for maneuver, manDesc in ManeuverCodex if maneuver not in character.maneuvers]
+    chosenManeuvers = r.sample(eligibleManeuvers,number)
+    addToList(character.maneuvers,chosenManeuvers)
+
+def CombatSuperiorityFunc(character):
+    setattr(character, "maneuvers", [])
+    setattr(character, "supDiceNumber", 4)
+    setattr(character, "supDiceSize", 8)
+    setattr(character, "maneuverDC",8)
+    if character.level == 3:
+        addManeuver(character,3)         # Learn 3 maneuvers
+        character.supDiceNumber = 4      # get 4 superiority dice
+    elif character.level == 7:
+        addManeuver(character,2)         # Learn 2 maneuvers
+        character.supDiceNumber = 5      # Get superiority die 
+    elif character.level == 10:
+        addManeuver(character,2)         # Learn 2 maneuvers
+        character.supDiceSize = 10       # Increase die size
+    elif character.level == 15:
+        addManeuver(character,2)         # Learn 2 maneuvers
+        character.supDice = 5            # Get superiority die
+    elif character.level == 18:
+        character.supDiceSize = 12       # Increase die size
+    #Update maneuver save DC:
+    character.maneuverDC = 8+max(character.abilities["Strength"],character.abilities["Dexterity"])
+
+    CombatSuperiorityShowDesc = "Superiority Dice: " + str(character.supDiceNumber) + "d" + str(character.supDiceSize) +", save DC: " + str(character.maneuverDC)
+    for maneuver in character.maneuvers:
+        CombatSuperiorityShowDesc = CombatSuperiorityShowDesc + "\n" + maneuver + ": " + ManeuverCodex[maneuver]
+
+    for feature in character.features:
+        if feature.name == "Combat Superiority":
+            feature.showText = CombatSuperiorityShowDesc
+
+CombatSuperiority = feature("Combat Superiority", "Subclass", CombatSuperiorityDesc,levelsActive = list(range(3,21)), showText = CombatSuperiorityShowText, function = CombatSuperiorityFunc)
+
+
+
+StudentOfWarDesc = "At 3rd level, you gain proficiency with one type of artisan's tools of your choice."
+def StudentOfWarFunc(character):
+    eligibleTools = [tool for tool in ArtisansTools if tool not in character.proficiencies["tool"]]
+    chosenTool = r.sample(eligibleTools,1)
+    character.addProficiency({"tool":chosenTool})
+
+StudentOfWar = function("Student of War","Subclass",StudentOfWarDesc,levelsActive = 3,function= StudentOfWarFunc, hideFeature = True)
+
+
+KnowYourEnemyDesc = "Starting at 7th level, if you spend at least 1 minute observing or interacting with another creature outside combat, you can learn certain information about its capabilities compared to your own. The DM tells you if the creature is your equal, superior, or inferior in regard to two of the following characteristics of your choice: Strength score, Dexterity score, Constitution score, Armor Class, Current hit points, Total class levels, Fighter class levels"
+KnowYourEnemyShowText = "If you spend at least 1 minute with another creature outside combat, you learn how it relates to you in regard to two of the following characteristics of your choice: Strength, Dexterity, Constitution, AC, Current HP, Total class levels, Fighter class levels."
+KnowYourEnemy = feature("Know Your Enemy", "Subclass",KnowYourEnemyDesc,7,showText = KnowYourEnemyShowText)
+
+RelentlessDesc = "Starting at 15th level, when you roll initiative and have no superiority dice remaining, you regain 1 superiority die."
+RelentlessShowText = "When you roll initiative and have no superiority dice remaining, you regain 1 die."
+Relentless = feature("Relentless","Subclass",RelentlessDesc,15,showText = RelentlessShowText)
+
+BattleMaster = subclass("Battle Master",Fighter,[CombatSuperiority,StudentOfWar,KnowYourEnemy,Relentless])
 
 
 
