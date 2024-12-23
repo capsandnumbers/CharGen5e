@@ -1,4 +1,5 @@
-from classDefs import *
+# PHBRaces
+# from classDefs import *
 
 
 
@@ -94,7 +95,7 @@ DarkvisionElfShowText = "You can see in dim light as if it were bright light, an
 DarkvisionElf = feature("Darkvision 60 ft.", "Race", DarkvisionElfDesc,showText=DarkvisionElfShowText)
 
 
-FeyAncestryDesc. You have advantage on saving throws against being charmed, and magic can't put you to sleep.
+FeyAncestryDesc = "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
 FeyAncestry = feature("Fey Ancestry","Race",FeyAncestryDesc)
 
 TranceDesc = "Elves do not sleep. Instead they meditate deeply, remaining semi-conscious, for 4 hours a day. The Common word for this meditation is ""trance."" While meditating, you dream after a fashion; such dreams are actually mental exercises that have become reflexive after years of practice. After resting in this way, you gain the same benefit a human would from 8 hours of sleep."
@@ -105,14 +106,14 @@ Trance = feature("Trance","Race",TranceDesc,showText = TranceShowText)
 KeenSensesDesc = "You have proficiency in the Perception skill."
 def KeenSensesFunc(character):
     #character.addToList(character.skillProfs,"Perception")
-    character.addProficiency({"weapon": "Perception"} # Might work or might not! 
+    character.addProficiency({"weapon": "Perception"}) 
 KeenSenses = feature("KeenSenses","Race",KeenSensesDesc,function = KeenSensesFunc,hideFeature = True)
 
 # Shared by both subraces, so placing here
 ElfWeaponTrainingDesc = "You have proficiency with the longsword, shortsword, shortbow, and longbow."
 def ElfWeaponTrainingFunc(character):
-    character.addProficiency({"weapon": ["Longsword", "Shortsword","Shortbow","Longbow"]}
-ElfWeaponTraining = feature("Elf Weapon Training","Subrace",ElfWeaponTraniningDesc,function = ElfWeaponTraniningFunc,hideFeature = True)
+    character.addProficiency({"weapon": ["Longsword", "Shortsword","Shortbow","Longbow"]})
+ElfWeaponTraining = feature("Elf Weapon Training","Subrace",ElfWeaponTrainingDesc,function = ElfWeaponTrainingFunc,hideFeature = True)
 
 ElfBonuses = {"Dexterity": 2}
 ElfFeatureList = [DarkvisionElf, FeyAncestry, Trance, KeenSenses]
@@ -161,7 +162,7 @@ def CantripFunc(character):
     ]
     
     chosenSpell = r.choice(eligibleSpells)
-    character.spellDict.proficiencies[category].extend(items) # Test this!
+    character.spellDict.extend({chosenSpell, "Intelligence"}) # Test this!
 Cantrip = feature("Cantrip","Subrace",CantripDesc,function = CantripFunc,hideFeature = True )
 
 
@@ -184,7 +185,7 @@ LightfootHalfling = subrace("Lightfoot Halfling",Halfling,{"Charisma": 1},[Natur
 
 def StoutResilianceFunc(character): 
     addToList(character.damageResistances,"Poison")
-StoutResiliance = feature("Stout Resiliance","Subrace","You have advantage on saving throws against poison, and you have resistance to poison damage.",,function = StoutResilianceFunc)
+StoutResiliance = feature("Stout Resiliance","Subrace","You have advantage on saving throws against poison, and you have resistance to poison damage.",function = StoutResilianceFunc)
 StoutHalfling = subrace("Stout Halfling",Halfling,{"Constitution": 1},[StoutResiliance])
 
 
@@ -195,30 +196,143 @@ StoutHalfling = subrace("Stout Halfling",Halfling,{"Constitution": 1},[StoutResi
 
 
 
-Dragonborn = race("Dragonborn", "Medium",30,{"Strength":2,"Charisma":1},{"language": ["Common","Draconic"]},[], NeedsSubrace = True)
+Dragonborn = race("Dragonborn", "Medium",30,{"Strength":2,"Charisma":1},{"language": ["Common","Draconic"]},[], needsSubrace = True)
+
+                             
+
+LineArea = "a 5 by 30 ft. line"
+ConeArea = "15 ft. cone"
 
 
 
-DraconicAncestryBlackDesc
-BlackDragonborn = subrace("Black Dragonborn",Dragonborn,{},[DraconicAncestryBlack])
+
+
+DraconicAncestryGeneric = "You are distantly related to a particular kind of dragon. Choose a type of dragon from the below list; this determines the damage and area of your breath weapon, and the type of resistance you gain."
+
+BreathWeaponGenericDesc = "You can use your action to exhale destructive energy. It deals damage in an area according to your ancestry. When you use your breath weapon, all creatures in the area must make a saving throw, the type of which is determined by your ancestry. The DC of this saving throw is 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increase to 3d6 at 6th level, 4d6 at 11th, and 5d6 at 16th level. After using your breath weapon, you cannot use it again until you complete a short or long rest."
+BreathWeaponGenericShowText = "As an action you exhale destructive energy, causing all creatures in AREA to make a SAVETYPE saving throw with DC DCVALUE. A creature takes DAMAGE DTYPE damage on a failed save, and half as much on a successful one."
+
+DragonbornStats = {
+    "Black": { 
+        "damageType": "Acid",
+        "Area": LineArea,
+        "Save": "Dexterity",
+        "breathWeaponShowText": BreathWeaponGenericShowText 
+    },
+    "Blue": { 
+        "damageType": "Lightning",
+        "Area": LineArea,
+        "Save": "Dexterity",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+    "Brass": { 
+        "damageType": "Fire",
+        "Area": LineArea,
+        "Save": "Dexterity",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+    "Bronze": { 
+        "damageType": "Lightning",
+        "Area": LineArea,
+        "Save": "Dexterity",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+    "Copper": { 
+        "damageType": "Acid",
+        "Area": LineArea,
+        "Save": "Dexterity",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+    "Gold": { 
+        "damageType": "Fire",
+        "Area": ConeArea,
+        "Save": "Dexterity",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+    "Green": { 
+        "damageType": "Poison",
+        "Area": ConeArea,
+        "Save": "Constitution",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+    "Red": { 
+        "damageType": "Fire",
+        "Area": ConeArea,
+        "Save": "Dexterity",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+    "Silver": { 
+        "damageType": "Cold",
+        "Area": ConeArea,
+        "Save": "Constitution",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+    "White": { 
+        "damageType": "Cold",
+        "Area": ConeArea,
+        "Save": "Constitution",
+        "breathWeaponShowText": BreathWeaponGenericShowText
+    },
+}
+
+for key, details in DragonbornStats.items():
+    details["breathWeaponShowText"] = details["breathWeaponShowText"].replace("AREA", details["Area"])
+    details["breathWeaponShowText"] = details["breathWeaponShowText"].replace("SAVETYPE", details["Save"])
+    details["breathWeaponShowText"] = details["breathWeaponShowText"].replace("DTYPE", details["damageType"])
 
 
 
-Draconic Ancestry. You are distantly related to a particular kind of dragon. Choose a type of dragon from the below list; this determines the damage and area of your breath weapon, and the type of resistance you gain.
-Dragon Color	Damage Type	Breath Weapon
-Black	Acid	5 by 30 ft. line (DEX save)
-Blue	Lightning	5 by 30 ft. line (DEX save)
-Brass	Fire	5 by 30 ft. line (DEX save)
-Bronze	Lightning	5 by 30 ft. line (DEX save)
-Copper	Acid	5 by 30 ft. line (DEX save)
-Gold	Fire	15 ft. cone (DEX save)
-Green	Poison	15 ft. cone (CON save)
-Red	Fire	15 ft. cone (DEX save)
-Silver	Cold	15 ft. cone (CON save)
-White	Cold	15 ft. cone (CON save)
-Breath Weapon. You can use your action to exhale destructive energy. It deals damage in an area according to your ancestry. When you use your breath weapon, all creatures in the area must make a saving throw, the type of which is determined by your ancestry. The DC of this saving throw is 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increase to 3d6 at 6th level, 4d6 at 11th, and 5d6 at 16th level. After using your breath weapon, you cannot use it again until you complete a short or long rest.
-Damage Resistance. You have resistance to the damage type associated with your ancestry.
+
+DamageResistanceDesc = "You have resistance to the damage type associated with your ancestry."
+
+
+def BreathWeaponFunc(character):
+    raceName = character.race.name
+        
+    color = raceName.replace(" Dragonborn","")
+    #print("Color:", color)
+    details = DragonbornStats[color]
+    initialShowText = details["breathWeaponShowText"]
+    #print("Details:",details)
+
+    for feature in character.features:
+        if feature.name == "Breath Weapon":
+
+            if character.level >= 16:
+                damageValue = "5d6"
+            elif character.level >= 11:
+                damageValue = "4d6"
+            elif character.level >= 6:
+                damageValue = "3d6"
+            else:
+                damageValue = "2d6"
+            
+            feature.showText = details["breathWeaponShowText"]
+            feature.showText = feature.showText.replace("DAMAGE", damageValue)
+            feature.showText = feature.showText.replace("DCVALUE", str(int(8 + abMod(character.abilities["Constitution"])   + character.profMod)))
+
+
+def DamageResistanceFunc(character):
+    raceName = character.race.name
+    color = raceName.replace(" Dragonborn","")
+    damageType = DragonbornStats[color]["damageType"]
+    addToList(character.damageResistances,damageType)
+
+DamageResistance = feature("Damage Resistance", "Subrace", DamageResistanceDesc, function = DamageResistanceFunc, hideFeature = True)
+
+                                                          
+for color, details in DragonbornStats.items():
+    varName = color + "Dragonborn"
+    showName = color + " Dragonborn"
+    breathWeaponVarName = "BreathWeapon" + color
 
 
 
+    damageResistanceVarName = "DamageResistance" + color
+
+
+    globals()[breathWeaponVarName] = feature("Breath Weapon", "Subrace", BreathWeaponGenericDesc, showText = BreathWeaponGenericShowText, levelsActive = allLevels, function = BreathWeaponFunc)
+    globals()[damageResistanceVarName] = feature("Damage Resistance", "Subrace", DamageResistanceDesc, function = DamageResistanceFunc, hideFeature = True)
+    
+    globals()[varName] = subrace(showName,Dragonborn,{},featureList = [eval(breathWeaponVarName),eval(damageResistanceVarName)])
 
