@@ -1,3 +1,4 @@
+# Class Defs
 from header import *
 
 
@@ -50,6 +51,7 @@ grimoire = {
         "range": "Touch",
         "components": ["V", "M"],
         "material": "A firefly or phosphorescent moss"
+    },
     "Mage Hand": {
         "level": 0,  # Cantrips are level 0
         "description": "Create a spectral hand that can manipulate objects",
@@ -82,7 +84,7 @@ class charSubclass():
 
 
 class background():
-    def __init__(self, name, skillProfs, proficiencies, featureList):
+    def __init__(self, name, proficiencies, featureList):
         setupInputArgs(self,inspect.currentframe())
 
 
@@ -141,6 +143,12 @@ class feature():
         
         if self.showText is None:
             self.showText = description
+        
+        
+        if isinstance(levelsActive,list):
+            self.levelObtained = levelsActive[0]
+        else:
+            self.levelObtained = levelsActive
 
     
 
@@ -150,25 +158,3 @@ class feature():
 #class spell():
 #    def __init__(self, name, spellLevel, hasVerbal, hasSomatic, hasMaterial, isRitual ):
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
