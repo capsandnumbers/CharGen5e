@@ -1,3 +1,5 @@
+# Character
+
 from classDefs import *
 from outToPDF import *
 
@@ -30,7 +32,7 @@ class character():
 
         self.HP = int(0)
         self.HPRolls = []
-        
+        self.profMod = 2
         self.level = 0
 
 
@@ -182,12 +184,12 @@ class character():
 
 
     def applyBackground(self):
-        for skill in self.background.skillProfs:
-            if skill in self.skillProfs:
-                1 # Pick another from class' favoured skills
-                  # If you've got all your class' favoured skills somehow, pick at random from what remains
-            else:
-                addToList(self.skillProfs,skill)
+        #for skill in self.background.proficiencies["skill"]:
+        #    if skill in self.proficiencies["skill"]:
+        #        1 # Pick another from class' favoured skills
+        #          # If you've got all your class' favoured skills somehow, pick at random from what remains
+        #    else:
+        #        self.addProficiency(skill)
 
         self.addProficiency(self.background.proficiencies)
         #addToList(self.proficiencies,self.background.proficiencies)
@@ -218,13 +220,44 @@ class character():
         #        availableSkills.remove(skill)
         eligibleSkills = [skill for skill in self.charClass.classSkills if skill not in self.proficiencies["skill"] ]
         choices = r.sample(eligibleSkills,self.charClass.skillsToChoose)
-        addToList(self.skillProfs,classSkillChoices)
+        #addToList(self.proficiencies["skill"],choices)
+        
     
         # Add proficiencies
-        self.addProficiency(choices)
+        self.addProficiency({"skill":choices})
         self.addProficiency(self.charClass.proficiencies)
 
         addToList(self.savingThrows,self.charClass.saveProfs)
+
+    def featureSort(self):
+
+
+
+
+        source_order = {
+            "Race": 0,
+            "Subrace": 1,
+            "Background": 2,
+            "Class": 3,
+            "Subclass": 3
+        }
+        # Sort Race, Subrace, Background features alphabetically
+        sortedFeatures = sorted(
+            self.features,
+            key=lambda feature: (
+                source_order[feature.source],  # Primary: Source order
+                feature.levelObtained if feature.source in {"Class", "Subclass"} else 0,  # Secondary: Level for Class/Subclass
+                feature.name  # Tertiary: Alphabetical order for all
+            )
+        )
+        self.features = sortedFeatures
+
+    def listFeatures(self):
+        for feature in self.features:
+            if not feature.hideFeature:
+                print(feature.name)
+                print(feature.showText)
+
 
     def exportCharacter(self):
         printCharSheet(self)
