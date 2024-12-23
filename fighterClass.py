@@ -1,3 +1,5 @@
+#FighterClass
+
 from classDefs import *
 
 
@@ -179,17 +181,17 @@ Champion = charSubclass("Champion",Fighter,[ImprovedCritical,RemarkableAthlete,S
 BonusProficiencySamuraiDesc = "When you choose this archetype at 3rd level, you gain proficiency in one of the following skills of your choice: History, Insight, Performance, or Persuasion. Alternatively, you learn one language of your choice."
 def BonusProficiencySamuraiFunc(character):
     profs = ["History", "Insight", "Performance", "Persuasion"]
-    eligibleProfs = [prof for prof in profs if prof not in character.skillProfs]
+    eligibleProfs = [prof for prof in profs if prof not in character.proficiencies["skill"]]
     if not eligibleProfs:
         eligibleLanguages = [lang for lang in allLanguages if lang not in character.proficiencies["language"]]
         chosenLang = r.choice(eligibleLanguages)
         #character.proficiencies["Language"] = chosenLang
-        print(chosenLang)
+        #print(chosenLang)
         character.addProficiency({"language":[chosenLang]})
     else:
         chosenProf = r.choice(eligibleProfs)
-        addToList(character.skillProfs,chosenProf)
-    print(eligibleProfs)
+        character.addProficiency({"skill":[chosenProf]})
+        #addToList(character.skillProfs,chosenProf)
 
 
 BonusProficiencySamurai = feature("BonusProficiency","Subclass",BonusProficiencySamuraiDesc,3,BonusProficiencySamuraiFunc,hideFeature=True)
@@ -211,14 +213,14 @@ FightingSpirit = feature("Fighting Spirit","Subclass",FightingSpiritDesc,[3,10,1
 
 
 ElegantCourtierDesc = "Starting at 7th level, your discipline and attention to detail allow you to excel in social situations. Whenever you make a Charisma (Persuasion) check, you gain a bonus to the check equal to your Wisdom modifier. Your self-control also causes you to gain proficiency in Wisdom saving throws. If you already have this proficiency, you instead gain proficiency in Intelligence or Charisma saving throws (your choice)."
-ElegantCourtierShowText = "Whenever you make a Charisma (Persuasion) check, you gain a bonus equal to your Wisdom modifier. You also gain proficiency in Wisdom saving throws. If you already have this proficiency, you instead gain proficiency in Intelligence or Charisma saving throws (your choice)."
+ElegantCourtierShowText = "Whenever you make a Persuasion check, you gain a bonus equal to your Wisdom modifier."
 def ElegantCourtierFunc(character):
         if "Wisdom" in character.savingThrows:
             eligibleSaves = [save for save in ["Intelligence", "Charisma"] if save not in character.savingThrows]
             chosenSave = r.choice(eligibleSaves)
-            character.addToList(character.savingThrows,chosenSave)
+            addToList(character.savingThrows,chosenSave)
         else:
-            character.addToList(character.savingThrows,"Wisdom")
+            addToList(character.savingThrows,"Wisdom")
 
 ElegantCourtier = feature("Elegant Courtier","Subclass",ElegantCourtierDesc,7,function=ElegantCourtierFunc,showText=ElegantCourtierShowText)
 
@@ -231,7 +233,7 @@ TirelessSpirit = feature("Tireless Spirit","Subclass",TirelessSpiritDesc,10,show
 
 RapidStrikeDesc = "Starting at 15th level, you learn to trade accuracy for swift strikes. If you take the Attack action on your turn and have advantage on an attack roll against one of the targets, you can forgo the advantage for that roll to make an additional weapon attack against that target, as part of the same action. You can do so no more than once per turn."
 RapidStrikeShowText = "If you take the Attack action on your turn and have advantage on an attack roll against one of the targets, you can forgo the advantage for that roll to make an additional weapon attack against that target, as part of the same action. You can do so no more than once per turn."
-RapidStrike = feature("RapidStrike","Subclass",RapidStrikeDesc,15,showText=RapidStrikeShowText)
+RapidStrike = feature("Rapid Strike","Subclass",RapidStrikeDesc,15,showText=RapidStrikeShowText)
 
 
 
@@ -241,12 +243,3 @@ StrengthBeforeDeath = feature("Strength Before Death","Subclass",StrengthBeforeD
 
 
 Samurai = charSubclass("Samurai",Fighter,[BonusProficiencySamurai,FightingSpirit,ElegantCourtier,TirelessSpirit,RapidStrike,StrengthBeforeDeath],["Strength", "Constitution", "Wisdom"])
-
-
-
-
-
-
-
-
-
