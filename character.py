@@ -39,12 +39,7 @@ class character():
         # List of features
         self.features = []
 
-        # List of spells. This will be such a headache with spells coming from different sources. Include in class?
-        self.spells = []
-
-        # Lists of strings
-        # self.skillProfs = []
-
+        # Dictionary for all proficiencies
         self.proficiencies = {
             "skill": [],
             "armor": [],
@@ -107,15 +102,16 @@ class character():
 
 
 
+        HPRoll = r.randint(1,self.HD)        
         
         if newLevel == 1:
-            HPRoll = self.HD
+            self.HPRolls.append(self.HD)
         else:
-            HPRoll = r.randint(1,self.HD)
-        self.HPRolls.append(HPRoll)
+            self.HPRolls.append(HPRoll)
 
 
         
+        self.HP = int(sum(self.HPRolls) + self.level*abMod(self.abilities["Constitution"]))
 
 
 
@@ -126,13 +122,10 @@ class character():
                 
                 if self.level in levelsActive:
                     addToList(self.features, feature)
-                    if feature.hasFunction: 
+                    if feature.function is not None: 
                         feature.function(self)
 
-                      #print(f"{feature.name} happened at level {self.level}, HP is {self.HP}")
 
-
-        self.HP += int(HPRoll + abMod(self.abilities["Constitution"]))
 
 
         self.profBonus = int(np.ceil(self.level/4) + 1)
@@ -151,8 +144,6 @@ class character():
         abilitiesInOrder = self.charClass.abilityPreference.copy()
         abilitiesInOrder.extend(nonPreferred)
         
-        # print(abilitiesInOrder)
-
         # Roll 6 sets of abilities
         rolledAbilities = []
         for _ in range(6):
@@ -184,15 +175,9 @@ class character():
 
 
     def applyBackground(self):
-        #for skill in self.background.proficiencies["skill"]:
-        #    if skill in self.proficiencies["skill"]:
-        #        1 # Pick another from class' favoured skills
-        #          # If you've got all your class' favoured skills somehow, pick at random from what remains
-        #    else:
-        #        self.addProficiency(skill)
+
 
         self.addProficiency(self.background.proficiencies)
-        #addToList(self.proficiencies,self.background.proficiencies)
 
     def applyRace(self): # And subrace
         
@@ -214,15 +199,10 @@ class character():
 
 
     def applyClass(self):
-        #availableSkills = self.charClass.classSkills
-        #for skill in self.skillProfs:
-        #    if skill in availableSkills:
-        #        availableSkills.remove(skill)
+
         eligibleSkills = [skill for skill in self.charClass.classSkills if skill not in self.proficiencies["skill"] ]
         choices = r.sample(eligibleSkills,self.charClass.skillsToChoose)
-        #addToList(self.proficiencies["skill"],choices)
-        
-    
+
         # Add proficiencies
         self.addProficiency({"skill":choices})
         self.addProficiency(self.charClass.proficiencies)
