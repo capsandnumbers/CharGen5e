@@ -50,8 +50,9 @@ Stonecunning = feature("Stonecunning","Race", StonecunningDesc, showText=Stonecu
 
 DwarvenToughnessDesc = "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level."
 def DwarvenToughnessFunc(character):
+    # Assume that the character will never lose this feature
+    
     character.HP += 1
-    character.toughnessTracker += 1
 DwarvenToughness = feature("Dwarven Toughness","Subrace",DwarvenToughnessDesc,levelsActive = allLevels, function = DwarvenToughnessFunc)
 
 
