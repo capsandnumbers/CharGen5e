@@ -1,8 +1,10 @@
 # Class Defs
 from header import *
 
+# Here I dump many useful lists and dictionaries to be referenced by functions/methods, some need completing
 
 allLevels = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+
 allSkills = {
     "Acrobatics": "Dexterity",
     "Animal Handling": "Wisdom",
@@ -25,14 +27,20 @@ allSkills = {
 }
 
 
-allLanguages = ["Common","Elvish","Dwarvish","Halfling","Goblin","Orcish"]
+allLanguages = ["Common","Elvish","Dwarvish","Halfling","Goblin","Orcish"] # Idea: Split into common and rare/secret languages
 
 allAbilities = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]
 
 allArmor = ["Light Armor","Medium Armor","Heavy Armor","Shields"]
-simpleWeapons = ["Quarterstaff","Whip"]
+
+simpleWeapons = ["Quarterstaff","Whip"] # Increasingly I think weapons could be a dictionary
 martialWeapons = ["Shortsword", "Longsword"]
 
+
+
+
+
+artisansTools = ["Alchemist’s Supplies", "Brewer’s Supplies", "Calligrapher's Supplies", "Carpenter’s Tools", "Cartographer’s Tools", "Cobbler’s Tools", "Cook’s Utensils", "Glassblower’s Tools", "Jeweler’s Tools", "Leatherworker’s Tools", "Mason’s Tools", "Painter’s Supplies", "Potter’s Tools", "Smith’s Tools", "Tinker’s Tools", "Weaver’s Tools", "Woodcarver’s Tools"]
 
 allProfs = {
     "Thieves Tools": "Tool",
@@ -43,7 +51,7 @@ allProfs = {
 
 
 
-# Fill in using a spreadsheet/webscraping. Can extend with school, range, action type, components, ritual/concentration tags
+# grimoire will contain all the spells in the game. Fill in using a spreadsheet, or maybe webscraping. Can extend with school, range, action type, ritual/concentration tags
 grimoire = { 
     "Light": {
         "level": 0,  # Cantrips are level 0
@@ -68,7 +76,11 @@ grimoire = {
     },
 }
 
+# Make spell list an attribute of charClass?
 wizardSpellList = ["Light", "Nage Hand", "Prestidigitation"]
+
+
+
 
 
 # Would some of these be better as dictionaries?
@@ -102,11 +114,11 @@ class subrace():
 
         self.parent.subraces.append(self)
 
-#class lineage():
+# Some races have subraces and some don't, so where there is a subrace I combine them
 def combineRace(inputRace, inputSubrace):
-    # Make a shallow copy of the race to avoid modifying the original
+
     combinedRace = race(
-        name=inputSubrace.name,  # Combine names
+        name=inputSubrace.name, # Take name of subrace. "Hill Dwarf" instead of "Dwarf"
         size=inputRace.size,
         speed=inputRace.speed,
         abilityBonus=inputRace.abilityBonus.copy(),
@@ -126,15 +138,16 @@ def combineRace(inputRace, inputSubrace):
         else:
             combinedRace.proficiencies[category] = items
 
-    #character.addProficiency({"language": ["Light Armor", "Medium Armor"]})
-
-    #combinedRace.proficiencies.extend(inputSubrace.proficiencies)
-    combinedRace.featureList.extend(inputSubrace.featureList)  # Extend, not append
+    combinedRace.featureList.extend(inputSubrace.featureList)  # Add subrace's feature list to race's
     
     return combinedRace
 
 
-
+# Features can come from a character's class, subclass, race, subrace,  or background
+# The simplest ones don't change a character's stats - They just add text to a list of features
+# Some add proficiencies to other lists, or might change character's HP
+# Some need to be updated with a character's stats info. Example:
+# Some are updated as a character levels. Example: The Fighter feature Action Surge
 class feature():
     def __init__(self, name, source, description, levelsActive = [1], function = None, hasFunction = False, hideFeature = False, showText = None):
         setupInputArgs(self,inspect.currentframe())
@@ -150,11 +163,3 @@ class feature():
         else:
             self.levelObtained = levelsActive
 
-    
-
-
-
-
-#class spell():
-#    def __init__(self, name, spellLevel, hasVerbal, hasSomatic, hasMaterial, isRitual ):
-        
