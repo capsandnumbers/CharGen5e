@@ -53,6 +53,27 @@ class character():
         self.damageResistances = []
         self.damageImmunities = []
 
+        self.skillMods = {
+            "Acrobatics": 0,
+            "Animal Handling": 0,
+            "Arcana": 0,
+            "Athletics": 0,
+            "Deception": 0,
+            "History": 0,
+            "Insight": 0,
+            "Intimidation": 0,
+            "Investigation": 0,
+            "Medicine": 0,
+            "Nature": 0,
+            "Perception": 0,
+            "Performance": 0,
+            "Persuasion": 0,
+            "Religion": 0,
+            "Sleight of Hand": 0,
+            "Stealth": 0,
+            "Survival":0
+        }
+
 
         self.rank = "Senior Officer"   # Set this somehow
         
@@ -63,7 +84,7 @@ class character():
 
 
         self.rollAbilities()
-
+        self.updateAbilityMods()
 
 
 
@@ -95,6 +116,7 @@ class character():
 
 
 
+
     def attainLevel(self,newLevel,verbose = False):
         self.level = newLevel
         if verbose:
@@ -111,7 +133,7 @@ class character():
 
 
         
-        self.HP = int(sum(self.HPRolls) + self.level*abMod(self.abilities["Constitution"]))
+        
 
 
 
@@ -128,9 +150,9 @@ class character():
 
 
 
-        self.profBonus = int(np.ceil(self.level/4) + 1)
-        self.carryWeight = int(self.abilities["Strength"]*15)
-        self.dragWeight = int(self.abilities["Strength"]*30)
+
+        self.performUpdates()
+
 
     def rollAbilities(self):
         # Define all ability names and remove the preferred one(s)
@@ -169,7 +191,10 @@ class character():
             else:
                 self.proficiencies[category] = list(set(items))
 
-
+    def addProfFromList(self,listToChooseFrom,profCategory,numberToChoose = 1):
+        eligibleProfs = [prof for prof in listToChooseFrom if prof not in character.proficiencies[profCategory]]
+        chosenProfs = r.sample(eligibleProfs,numberToChoose)
+        character.addProficiency({profCategory:chosenProfs})
 
 
 
@@ -200,11 +225,29 @@ class character():
 
     def applyClass(self):
 
-        eligibleSkills = [skill for skill in self.charClass.classSkills if skill not in self.proficiencies["skill"] ]
-        choices = r.sample(eligibleSkills,self.charClass.skillsToChoose)
+        eligibleSkills = [skill for skill in self.charClass.classSkills if skill not in self.proficiencies["skill"]]
+
+        # Separate skills into "good" and "bad" based on positive ability modifiers
+        goodSkills = [skill for skill in eligibleSkills if self.abilityMods[allSkills[skill]] > 0]
+        print(goodSkills, self.abilityMods)
+        badSkills = [skill for skill in eligibleSkills if skill not in goodSkills]
+        print(badSkills)
+        # Choose as many good skills as possible, up to the required number
+        choices = []
+        if len(goodSkills) >= self.charClass.skillsToChoose:
+            choices = r.sample(goodSkills, self.charClass.skillsToChoose)
+        else:
+            # Add all good skills and fill the rest from bad skills
+            choices.extend(goodSkills)
+            remainingToChoose = self.charClass.skillsToChoose - len(goodSkills)
+            choices.extend(r.sample(badSkills, remainingToChoose))
+
+        # Add selected skills to proficiencies
+        self.addProficiency({"skill":choices})
+
+
 
         # Add proficiencies
-        self.addProficiency({"skill":choices})
         self.addProficiency(self.charClass.proficiencies)
 
         addToList(self.savingThrows,self.charClass.saveProfs)
@@ -238,6 +281,29 @@ class character():
                 print(feature.name)
                 print(feature.showText)
 
+    def updateAbilityMods(self):
+        for ability in self.abilityMods:
+            self.abilityMods[ability] = abMod(self.abilities[ability])
+
+    def updateSkillMods(self):
+        for skill in self.skillMods:
+            governingAbility = allSkills[skill]
+            governingAbilityMod = self.abilityMods[governingAbility]
+            skillMod = governingAbilityMod
+            if skill in self.proficiencies["skill"]:
+                skillMod += self.profMod
+            self.skillMods[skill] = skillMod
+
+    def updateHP(self):
+        self.HP = int(sum(self.HPRolls) + self.level*self.abilityMods["Constitution"])
+        
+    def performUpdates(self):
+        self.updateAbilityMods()
+        self.updateSkillMods()
+        self.updateHP()
+        self.profBonus = int(np.ceil(self.level/4) + 1)
+        self.carryWeight = int(self.abilities["Strength"]*15)
+        self.dragWeight = int(self.abilities["Strength"]*30)
 
     def exportCharacter(self):
         printCharSheet(self)

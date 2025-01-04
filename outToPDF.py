@@ -1,8 +1,7 @@
 # outToPDF
 
 import pdfrw
-import header
-
+from header import *
 
 def printCharSheet(character):
 
@@ -13,30 +12,117 @@ def printCharSheet(character):
 
     output_pdf = character.name + '.pdf'
 
+
+    abilityFieldDict = {"Strength": '',
+        "Dexterity": '',
+        "Constitution" : '',
+        "Intelligence" : '',
+        "Wisdom": '',
+        "Charisma" :''}
+
+
+    skillDict = {
+    "Acrobatics": '',
+    "Animal Handling": '',
+    "Arcana": '',
+    "Athletics": '',
+    "Deception": '',
+    "History": '',
+    "Insight": '',
+    "Intimidation": '',
+    "Investigation":'',
+    "Medicine":'',
+    "Nature":  '',
+    "Perception": '',
+    "Performance":'',
+    "Persuasion": '',
+    "Religion":   '',
+    "Sleight of Hand": '',
+    "Stealth":         '',
+    "Survival":        ''
+}
+
+
+
+
+
+    for ability in character.savingThrows:
+        abilityFieldDict[ability] = 'Yes'
+            #print('Proficient in ',ability, ' saves')
+
+    for skill in skillDict:
+        if skill in character.proficiencies["skill"]:
+            skillDict[skill] = 'Yes'
+
     form_data = {
-        'Background': character.background.name,
-        'CHA': str(character.abilities["Charisma"]),
-        'CHamod': str(abMod(character.abilities["Charisma"])),
-        'CharacterName': character.name,
-        'Check Box 12': "Y",
-        'ClassLevel': str(character.charClass.name) + " " + str(character.level),
-        'CON': str(character.abilities["Constitution"]),
-        'CONmod': str(abMod(character.abilities["Constitution"])),
-        'DEX': str(character.abilities["Dexterity"]),
-        'DEXmod': str(abMod(character.abilities["Dexterity"])),
+
+
+
+        'Check Box 11': abilityFieldDict["Strength"],
+        'Check Box 18': abilityFieldDict["Dexterity"],
+        'Check Box 19': abilityFieldDict["Constitution"],
+        'Check Box 20': abilityFieldDict["Intelligence"],
+        'Check Box 21': abilityFieldDict["Wisdom"],
+        'Check Box 22': abilityFieldDict["Charisma"],
+        #'Check Box 12': 'Yes', Death save successes
+        #'Check Box 13': 'Yes',
+        #'Check Box 14': 'Yes',
+        #'Check Box 15': 'Yes', Death save failures
+        #'Check Box 16': 'Yes',
+        #'Check Box 17': 'Yes',
+        'Check Box 23': '',  # Acrobatics
+        'Check Box 24': '',  # Animal Handling
+        'Check Box 25': '',  # Arcana
+        'Check Box 26': '',  # Athletics
+        'Check Box 27': '',  # Deception
+        'Check Box 28': '',  # History
+        'Check Box 29': '',  # Insight
+        'Check Box 30': '',  # Intimidation
+        'Check Box 31': '',  # Investigation
+        'Check Box 32': '',  # Medicine
+        'Check Box 33': '',  # Nature
+        'Check Box 34': '',  # Perception
+        'Check Box 35': '',  # Performance
+        'Check Box 36': '',  # Persuasion
+        'Check Box 37': '',  # Religion
+        'Check Box 38': '',  # Sleight of Hand
+        'Check Box 39': '',  # Stealth
+        'Check Box 40': '',  # Survival
+
+#Performance (Cha)  Persuasion (Cha)  Religion (Int)  Sleight of Hand (Dex)  Stealth (Dex)  Survival (Wis)
+
         'HPCurrent': str(character.HP),
         'HPMax': str(character.HP),
-        'INT': str(character.abilities["Intelligence"]),
-        'INTmod': str(abMod(character.abilities["Constitution"])),
+
+        'CharacterName': character.name,
         'PlayerName': character.rank,
         'ProfBonus': str(character.profBonus),
         'Race ': character.race.name,
+        'ClassLevel': str(character.charClass.name) + " " + str(character.level),
+        'Background': character.background.name,
         'Speed': str(character.speed) + " ft.",
-        'STR': str(character.abilities["Strength"]),
-        'STRmod': str(abMod(character.abilities["Strength"])),
-        'WIS': str(character.abilities["Wisdom"]),
-        'WISmod': str(abMod(character.abilities["Intelligence"])),
 
+
+        'STR': str(character.abilities["Strength"]),
+        'STRmod': str(character.abilityMods["Strength"]),
+        'ST Strength'       : str(10),
+        'DEX': str(character.abilities["Dexterity"]),
+        'DEXmod ': str(character.abilityMods["Dexterity"]),        
+        'CON': str(character.abilities["Constitution"]),
+        'CONmod': str(character.abilityMods["Constitution"]),
+        'INT': str(character.abilities["Intelligence"]),
+        'INTmod': str(character.abilityMods["Intelligence"]),
+        'WIS': str(character.abilities["Wisdom"]),
+        'WISmod': str(character.abilityMods["Wisdom"]),
+        'CHA': str(character.abilities["Charisma"]),
+        'CHAmod': str(character.abilityMods["Charisma"]),
+
+       # 'ST Strength'       : 
+       # 'ST Dexterity'      :
+       # 'ST Constitution'   :
+       # 'ST Intelligence'   :
+       # 'ST Wisdom'         :
+       # 'ST Charisma'       :
 
 
 

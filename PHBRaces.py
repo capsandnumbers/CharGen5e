@@ -1,5 +1,5 @@
 # PHBRaces
-# from classDefs import *
+from classDefs import *
 
 
 
@@ -76,6 +76,7 @@ Dwarf = race("Dwarf","Medium",25,DwarfBonuses,{"language": ["Common","Dwarvish"]
 
 HillDwarfBonuses = {"Wisdom": 1}
 HillDwarf = subrace("Hill Dwarf",Dwarf,HillDwarfBonuses,[DwarvenToughness])
+
 
 
 MountainDwarfBonuses = {"Strength": 2}

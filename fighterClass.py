@@ -112,7 +112,7 @@ Indomitable = feature("Indomitable","Class",IndomitableDesc,[9,13,17],function=I
 
 
 
-Fighter = charClass("Fighter",10,["Strength","Constitution"],["Strength","Constitution"],['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival'],2,{"weapon": simpleWeapons+martialWeapons,"armor":allArmor},[FightingStyle,ActionSurge,SecondWind,ASIFighter,ExtraAttack,Indomitable])
+Fighter = charClass("Fighter",10,["Strength","Constitution","Charisma"],["Strength","Constitution"],['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival'],2,{"weapon": simpleWeapons+martialWeapons,"armor":allArmor},[FightingStyle,ActionSurge,SecondWind,ASIFighter,ExtraAttack,Indomitable])
 
 
 
@@ -146,9 +146,7 @@ ManeuverCodex = {
     "Sweeping Attack": "When you hit a creature with a melee weapon attack, you can expend one superiority die to attempt to damage another creature with the same attack. Choose another creature within 5 feet of the original target and within your reach. If the original attack roll would hit the second creature, it takes damage equal to the number you roll on your superiority die. The damage is of the same type dealt by the original attack.",
     "Trip Attack": "When you hit a creature with a weapon attack, you can expend one superiority die to attempt to knock the target down. You add the superiority die to the attack's damage roll, and if the target is Large or smaller, it must make a Strength saving throw. On a failed save, you knock the target prone."
 }
-    
 
-    
 CombatSuperiorityDesc = ""
 CombatSuperiorityShowText = ""
 def addManeuver(character,number):
@@ -192,11 +190,9 @@ CombatSuperiority = feature("Combat Superiority", "Subclass", CombatSuperiorityD
 
 StudentOfWarDesc = "At 3rd level, you gain proficiency with one type of artisan's tools of your choice."
 def StudentOfWarFunc(character):
-    eligibleTools = [tool for tool in ArtisansTools if tool not in character.proficiencies["tool"]]
-    chosenTool = r.sample(eligibleTools,1)
-    character.addProficiency({"tool":chosenTool})
+    character.addProfFromList(artisansTools,"tool",1)
 
-StudentOfWar = function("Student of War","Subclass",StudentOfWarDesc,levelsActive = 3,function= StudentOfWarFunc, hideFeature = True)
+StudentOfWar = feature("Student of War","Subclass",StudentOfWarDesc,levelsActive = 3,function= StudentOfWarFunc, hideFeature = True)
 
 
 KnowYourEnemyDesc = "Starting at 7th level, if you spend at least 1 minute observing or interacting with another creature outside combat, you can learn certain information about its capabilities compared to your own. The DM tells you if the creature is your equal, superior, or inferior in regard to two of the following characteristics of your choice: Strength score, Dexterity score, Constitution score, Armor Class, Current hit points, Total class levels, Fighter class levels"
@@ -207,7 +203,7 @@ RelentlessDesc = "Starting at 15th level, when you roll initiative and have no s
 RelentlessShowText = "When you roll initiative and have no superiority dice remaining, you regain 1 die."
 Relentless = feature("Relentless","Subclass",RelentlessDesc,15,showText = RelentlessShowText)
 
-BattleMaster = subclass("Battle Master",Fighter,[CombatSuperiority,StudentOfWar,KnowYourEnemy,Relentless])
+BattleMaster = charSubclass("Battle Master",Fighter,[CombatSuperiority,StudentOfWar,KnowYourEnemy,Relentless])
 
 
 

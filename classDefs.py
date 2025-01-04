@@ -109,7 +109,7 @@ class race():
 
 
 class subrace():
-    def __init__(self, name, parent, abilityBonus, proficiencies = {}, featureList = []):
+    def __init__(self, name, parent, abilityBonus, featureList = [], proficiencies = {}):
         setupInputArgs(self,inspect.currentframe())
 
         self.parent.subraces.append(self)

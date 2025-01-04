@@ -81,4 +81,4 @@ CitySecretsShowText = "When not in combat, you and your party can travel in the 
 CitySecrets = feature("City Secrets","Background",citySecretsDesc, showText=CitySecretsShowText)
 
 
-Urchin = background("Urchin",{"skill": ["Sleight of Hand","Athletics"],"tool": ["Disguise Kit", "Thieves' Tools"]},[CitySecrets])
+Urchin = background("Urchin",{"skill": ["Sleight of Hand","Stealth"],"tool": ["Disguise Kit", "Thieves' Tools"]},[CitySecrets])
