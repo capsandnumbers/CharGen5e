@@ -11,7 +11,7 @@ This program automates the process of filling out character sheets for **Dungeon
 
 ---
 
-To use this program, you will need the official D&D 5e form-fillable character sheet. You can download it legally from the **[Wizards of the Coast website]([https://dnd.wizards.com](https://media.wizards.com/2022/dnd/downloads/DnD_5E_CharacterSheet_FormFillable.pdf))**. I'm expressly not distributing a file to you, I'm telling you where you can download it and then use it for personal use.
+To use this program, you will need the official D&D 5e form-fillable character sheet. You can download it legally from the **[Wizards of the Coast website](https://media.wizards.com/2022/dnd/downloads/DnD_5E_CharacterSheet_FormFillable.pdf))**. I'm expressly not distributing a file to you, I'm telling you where you can download it and then use it for personal use.
 
 ---
 
@@ -41,4 +41,4 @@ Please note:
 
 ## **Acknowledgments**
 
-Thanks to the suits at WotC and all the visionaries before and around them.
+Thanks to WotC and all the visionaries in this cool hobby
