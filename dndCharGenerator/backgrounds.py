@@ -1,5 +1,5 @@
 # Backgrounds
-from classDefs import *
+from dndCharGenerator.classDefs import *
 
 
 # SRD

@@ -1,10 +1,10 @@
-from character import *
+from dndCharGenerator.character import *
 from Races.PHBRaces import *
 from Races.SRDRaces import *
-from fighterClass import *
+from dndCharGenerator.fighterClass import *
 from fighterSubclasses import *
-from backgrounds import *
-from PHBBackgrounds import *
+from dndCharGenerator.backgrounds import *
+from dndCharGenerator.PHBBackgrounds import *
 import os
 
 name = "Owain"

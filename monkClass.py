@@ -1,4 +1,0 @@
-#MonkClass
-
-from classDefs import *
-

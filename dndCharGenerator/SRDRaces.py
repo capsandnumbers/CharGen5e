@@ -1,5 +1,5 @@
 # PHBRaces
-from classDefs import *
+from .classDefs import *
 
 
 
@@ -98,7 +98,7 @@ Trance = feature("Trance","Race",TranceDesc,text = TranceText)
 KeenSensesDesc = "You have proficiency in the Perception skill."
 def KeenSensesFunc(character):
     #character.addToList(character.skillProfs,"Perception")
-    character.addProficiency({"weapon": "Perception"}) 
+    character.addProficiency({"skill": ["Perception"]}) 
 KeenSenses = feature("KeenSenses","Race",KeenSensesDesc,function = KeenSensesFunc,hideFeature = True)
 
 # Shared by both subraces, so placing here

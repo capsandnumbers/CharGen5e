@@ -1,6 +1,6 @@
 #FighterClass
 
-from classDefs import *
+from dndCharGenerator.classDefs import *
 
 
 
@@ -109,7 +109,7 @@ Indomitable = feature("Indomitable","Class",IndomitableDesc,9,textFunc=stagedUpd
 
 
 
-Fighter = charClass("Fighter",10,["Strength","Constitution","Charisma"],["Strength","Constitution"],['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival'],2,{"weapon": simpleWeapons+martialWeapons,"armor":allArmor},[FightingStyle,ActionSurge,SecondWind,ASIFighter,ExtraAttack,Indomitable],ASISchedules["Fighter"])
+Fighter = charClass("Fighter",10,["Strength","Constitution"],["Strength","Constitution"],['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival'],2,{"weapon": simpleWeapons+martialWeapons,"armor":allArmor},[FightingStyle,ActionSurge,SecondWind,ASIFighter,ExtraAttack,Indomitable],ASISchedules["Fighter"])
 
 
 

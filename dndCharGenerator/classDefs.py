@@ -1,5 +1,5 @@
 # Class Defs
-from header import *
+from dndCharGenerator.header import *
 
 # Here I dump many useful lists and dictionaries to be referenced by functions/methods, some need completing
 
@@ -44,6 +44,7 @@ martialWeapons = ["Shortsword", "Longsword"]
 
 
 artisansTools = ["Alchemist’s Supplies", "Brewer’s Supplies", "Calligrapher's Supplies", "Carpenter’s Tools", "Cartographer’s Tools", "Cobbler’s Tools", "Cook’s Utensils", "Glassblower’s Tools", "Jeweler’s Tools", "Leatherworker’s Tools", "Mason’s Tools", "Painter’s Supplies", "Potter’s Tools", "Smith’s Tools", "Tinker’s Tools", "Weaver’s Tools", "Woodcarver’s Tools"]
+musicalInstruments = ["Lute","Drum"]
 
 allProfs = {
     "Thieves Tools": "Tool",
@@ -92,8 +93,13 @@ ASISchedules = {"Fighter":[4,6,8,12,14,16,19],"Monk":[4,8,12,16,19]}
 
 # Would some of these be better as dictionaries?
 class charClass():
-    def __init__(self, name, HD, abilityPreference, saveProfs, classSkills, skillsToChoose, proficiencies, featureList, ASISchedule):
+    def __init__(self, name, HD, abilityPreference, saveProfs, classSkills, skillsToChoose, proficiencies, featureList, ASISchedule,optionalProfs = None):
+
+
         setupInputArgs(self,inspect.currentframe())
+
+
+                    
 
 class charSubclass():
     def __init__(self, name, parent, featureList, abilityPreference=[]):

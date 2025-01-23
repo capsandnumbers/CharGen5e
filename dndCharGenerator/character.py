@@ -1,6 +1,6 @@
 # Character
 
-from classDefs import *
+from dndCharGenerator.classDefs import *
 from outToPDF import *
 
 
@@ -224,6 +224,15 @@ class character():
 
 
     def applyClass(self):
+
+        if self.charClass.optionalProfs:
+            for i in range(len(self.charClass.optionalProfs)):
+                for type, array, number in  self.charClass.optionalProfs[i]:
+                    choice = r.sample(array,number)
+                self.addProficiency({type:choices})
+
+
+
 
         eligibleSkills = [skill for skill in self.charClass.classSkills if skill not in self.proficiencies["skill"]]
 
