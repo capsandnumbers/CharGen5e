@@ -229,9 +229,9 @@ class character():
 
         # Separate skills into "good" and "bad" based on positive ability modifiers
         goodSkills = [skill for skill in eligibleSkills if self.abilityMods[allSkills[skill]] > 0]
-        print(goodSkills, self.abilityMods)
+        #print(goodSkills, self.abilityMods)
         badSkills = [skill for skill in eligibleSkills if skill not in goodSkills]
-        print(badSkills)
+        #print(badSkills)
         # Choose as many good skills as possible, up to the required number
         choices = []
         if len(goodSkills) >= self.charClass.skillsToChoose:
@@ -251,6 +251,7 @@ class character():
         self.addProficiency(self.charClass.proficiencies)
 
         addToList(self.savingThrows,self.charClass.saveProfs)
+
 
     def featureSort(self):
 
@@ -279,7 +280,7 @@ class character():
         for feature in self.features:
             if not feature.hideFeature:
                 print(feature.name)
-                print(feature.showText)
+                print(feature.getText(self))
 
     def updateAbilityMods(self):
         for ability in self.abilityMods:
@@ -296,7 +297,15 @@ class character():
 
     def updateHP(self):
         self.HP = int(sum(self.HPRolls) + self.level*self.abilityMods["Constitution"])
-        
+    
+    def updateFeatureText(self):
+        1
+
+    def setUpCasting(self,casterAbility):
+        self.casterAbility = casterAbility
+        self.spellList = wizardSpellList
+
+
     def performUpdates(self):
         self.updateAbilityMods()
         self.updateSkillMods()
@@ -304,6 +313,9 @@ class character():
         self.profBonus = int(np.ceil(self.level/4) + 1)
         self.carryWeight = int(self.abilities["Strength"]*15)
         self.dragWeight = int(self.abilities["Strength"]*30)
+
+        self.updateFeatureText()
+
 
     def exportCharacter(self):
         printCharSheet(self)

@@ -29,6 +29,9 @@ allSkills = {
 
 allLanguages = ["Common","Elvish","Dwarvish","Halfling","Goblin","Orcish"] # Idea: Split into common and rare/secret languages
 
+standardLanguages = ["Common","Elvish","Dwarvish","Giant","Gnomish","Goblin","Halfling","Orc"]
+exoticLanguages = ["Abyssal", "Celestial", "Draconic", "Deep Speech", "Infernal", "Primordial", "Sylvan", "Undercommon"]
+
 allAbilities = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]
 
 allArmor = ["Light Armor","Medium Armor","Heavy Armor","Shields"]
@@ -83,9 +86,13 @@ wizardSpellList = ["Light", "Nage Hand", "Prestidigitation"]
 
 
 
+ASISchedules = {"Fighter":[4,6,8,12,14,16,19],"Monk":[4,8,12,16,19]}
+
+
+
 # Would some of these be better as dictionaries?
 class charClass():
-    def __init__(self, name, HD, abilityPreference, saveProfs, classSkills, skillsToChoose, proficiencies, featureList):
+    def __init__(self, name, HD, abilityPreference, saveProfs, classSkills, skillsToChoose, proficiencies, featureList, ASISchedule):
         setupInputArgs(self,inspect.currentframe())
 
 class charSubclass():
@@ -113,6 +120,8 @@ class subrace():
         setupInputArgs(self,inspect.currentframe())
 
         self.parent.subraces.append(self)
+
+
 
 # Some races have subraces and some don't, so where there is a subrace I combine them
 def combineRace(inputRace, inputSubrace):
@@ -148,14 +157,53 @@ def combineRace(inputRace, inputSubrace):
 # Some add proficiencies to other lists, or might change character's HP
 # Some need to be updated with a character's stats info. Example:
 # Some are updated as a character levels. Example: The Fighter feature Action Surge
+
+def stagedUpdate(schedule):
+
+    def featureTextFunc(character):
+
+        level = character.level
+        text = ""
+
+        # Iterate over the schedule in reverse order to find the applicable feature text
+        for key in sorted(schedule.keys()):
+            if level >= key:
+                text = schedule[key]
+
+        
+        return text
+
+    return featureTextFunc
+
+
+
+def replacePlaceholders(text, character):
+
+    # Dictionary of character stats that can be referenced in text
+    stats = {
+        "level": character.level,
+        "CON": character.abilityMods["Constitution"],
+        "WIS": character.abilityMods["Wisdom"]
+        # Add other stats as needed
+    }
+
+    # Replace each placeholder in the text with the corresponding stat
+    for placeholder, value in stats.items():
+        text = text.replace(f"{{{placeholder}}}", str(value))
+
+
+    return text
+
+
+
 class feature():
-    def __init__(self, name, source, description, levelsActive = [1], function = None, hasFunction = False, hideFeature = False, showText = None):
+    def __init__(self, name, source, description, levelsActive = [1],type = "Simple", function = None, hasFunction = False, hideFeature = False, text = None, textFunc = None):
         setupInputArgs(self,inspect.currentframe())
         if self.function is not None:
             self.hasFunction = True
         
-        if self.showText is None:
-            self.showText = description
+        if self.text is None:
+            self.text = description
         
         
         if isinstance(levelsActive,list):
@@ -163,3 +211,9 @@ class feature():
         else:
             self.levelObtained = levelsActive
 
+
+    def getText(self,character):
+        if self.textFunc is None:
+            return replacePlaceholders(self.text,character)
+        else:
+            return self.textFunc(character)
