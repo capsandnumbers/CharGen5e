@@ -4,6 +4,7 @@ __pycache__/
 
 venv/
 CharGen5e.egg-info/
+Tests/
 
 resources/CharSheet.pdf
 
@@ -24,3 +25,5 @@ CharGen5e/Sources/*/
 # Ignore the resources folder in final distributions
 resources/
 !resources/CharSheetPDFVariables.xlsx
+
+

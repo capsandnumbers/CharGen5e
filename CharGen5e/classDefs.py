@@ -92,6 +92,9 @@ ASISchedules = {"Fighter":[4,6,8,12,14,16,19],"Monk":[4,8,12,16,19]}
 
 
 # Would some of these be better as dictionaries?
+
+
+
 class charClass():
     def __init__(self, name, HD, abilityPreference, saveProfs, classSkills, skillsToChoose, proficiencies, featureList, ASISchedule,optionalProfs = None):
 
@@ -102,19 +105,19 @@ class charClass():
                     
 
 class charSubclass():
-    def __init__(self, name, parent, featureList, abilityPreference=[]):
+    def __init__(self, name, parent, featureList, abilityPreference=[],optionalProfs = None):
         setupInputArgs(self,inspect.currentframe())
 
 
 
 
 class background():
-    def __init__(self, name, proficiencies, featureList):
+    def __init__(self, name, proficiencies, featureList,optionalProfs = None):
         setupInputArgs(self,inspect.currentframe())
 
 
 class race():
-    def __init__(self, name, size, speed, abilityBonus, proficiencies, featureList, needsSubrace = False):
+    def __init__(self, name, size, speed, abilityBonus, proficiencies, featureList, needsSubrace = False,optionalProfs = None):
         setupInputArgs(self,inspect.currentframe())
         if needsSubrace:
             self.subraces = []
@@ -122,7 +125,7 @@ class race():
 
 
 class subrace():
-    def __init__(self, name, parent, abilityBonus, featureList = [], proficiencies = {}):
+    def __init__(self, name, parent, abilityBonus, featureList = [], proficiencies = {},optionalProfs = None):
         setupInputArgs(self,inspect.currentframe())
 
         self.parent.subraces.append(self)
@@ -152,6 +155,9 @@ def combineRace(inputRace, inputSubrace):
             combinedRace.proficiencies[category].extend(items)
         else:
             combinedRace.proficiencies[category] = items
+    
+    combinedRace.optionalProfs = inputRace.optionalProfs + inputSubrace.optionalProfs
+
 
     combinedRace.featureList.extend(inputSubrace.featureList)  # Add subrace's feature list to race's
     
@@ -183,6 +189,23 @@ def stagedUpdate(schedule):
 
 
 
+def stagedReplacePlaceholders(schedule,inputText,replaceText):
+
+    def featureTextFunc(character):
+        level = character.level
+        text = inputText
+
+        # Iterate over the schedule in reverse order to find the applicable feature text
+        for key in sorted(schedule.keys()):
+            if level >= key:
+                text = text.replace(replaceText,schedule[key])
+
+        
+        return text
+    return featureTextFunc
+
+
+
 def replacePlaceholders(text, character):
 
     # Dictionary of character stats that can be referenced in text
@@ -200,13 +223,21 @@ def replacePlaceholders(text, character):
 
     return text
 
-
+def matchToSchedule(schedule, character):
+    level = character.level
+    applicable_levels = [key for key in schedule if key <= level]
+    if not applicable_levels:
+        return None  # No matching level found
+    return schedule[max(applicable_levels)]
 
 class feature():
-    def __init__(self, name, source, description, levelsActive = [1],type = "Simple", function = None, hasFunction = False, hideFeature = False, text = None, textFunc = None):
+    def __init__(self, name, source, description, levelsActive = [1],type = "Simple", function = None, hideFeature = False, text = None, textFunc = None,callback = None):
         setupInputArgs(self,inspect.currentframe())
-        if self.function is not None:
-            self.hasFunction = True
+        
+        self.hasFunction = self.function is not None
+        self.hasTextFunc = self.textFunc is not None
+        self.hasCallback = self.callback is not None
+
         
         if self.text is None:
             self.text = description

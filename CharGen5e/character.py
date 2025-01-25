@@ -3,6 +3,9 @@
 from CharGen5e.classDefs import *
 from CharGen5e.outToPDF import *
 
+def ACDefaultFunc(self):
+    return 10 + self.abilities["Dexterity"]
+
 
 class character():
     def __init__(self,name,inputLevel, background, charClass,charSubclass, race, subrace = None):
@@ -48,6 +51,11 @@ class character():
             "language": []
         }
 
+        self.equipment = {
+            "armor": "None",
+            "mainhand": "None",
+            "offhand": "None",
+        }
 
         self.savingThrows = []
         self.damageResistances = []
@@ -86,7 +94,17 @@ class character():
         self.rollAbilities()
         self.updateAbilityMods()
 
+        self.longJumpDistance = self.abilities["Strength"]
+        self.highJumpDistance = 3 + self.abilityMods["Strength"]
 
+
+
+        self.equippedArmor = "None"
+        self.equippedHand2 = "None"
+
+        self.ACFunc = ACDefaultFunc
+        self.updateAC()        
+        
 
         if self.race.needsSubrace:
             if self.subrace is None:
@@ -179,7 +197,8 @@ class character():
             self.abilities[ability] = int(value)
         
 
-
+    def updateAC(self):
+        self.AC = self.ACFunc(self)
 
 
 
@@ -192,17 +211,25 @@ class character():
                 self.proficiencies[category] = list(set(items))
 
     def addProfFromList(self,listToChooseFrom,profCategory,numberToChoose = 1):
-        eligibleProfs = [prof for prof in listToChooseFrom if prof not in character.proficiencies[profCategory]]
+        eligibleProfs = [prof for prof in listToChooseFrom if prof not in self.proficiencies[profCategory]]
         chosenProfs = r.sample(eligibleProfs,numberToChoose)
-        character.addProficiency({profCategory:chosenProfs})
+        self.addProficiency({profCategory:chosenProfs})
 
 
+    def handleOptionalProfs(self, source):
+        if source.optionalProfs:
+            for entry in source.optionalProfs:
+                array = entry[0]
+                category = entry[1]
+                number = entry[2]
+                self.addProfFromList(array, category, number)
 
 
     def applyBackground(self):
 
 
         self.addProficiency(self.background.proficiencies)
+        self.handleOptionalProfs(self.background)
 
     def applyRace(self): # And subrace
         
@@ -218,19 +245,13 @@ class character():
         
         # Add proficiencies
         self.addProficiency(self.race.proficiencies)
+        self.handleOptionalProfs(self.race)
         
     
 
 
 
     def applyClass(self):
-
-        if self.charClass.optionalProfs:
-            for i in range(len(self.charClass.optionalProfs)):
-                for type, array, number in  self.charClass.optionalProfs[i]:
-                    choice = r.sample(array,number)
-                self.addProficiency({type:choices})
-
 
 
 
@@ -258,6 +279,7 @@ class character():
 
         # Add proficiencies
         self.addProficiency(self.charClass.proficiencies)
+        self.handleOptionalProfs(self.charClass)
 
         addToList(self.savingThrows,self.charClass.saveProfs)
 
@@ -307,8 +329,12 @@ class character():
     def updateHP(self):
         self.HP = int(sum(self.HPRolls) + self.level*self.abilityMods["Constitution"])
     
-    def updateFeatureText(self):
-        1
+    def performFeatureCallbacks(self):
+        for feature in (f for f in self.features if f.hasCallback):
+        
+            feature.callback(self)
+
+
 
     def setUpCasting(self,casterAbility):
         self.casterAbility = casterAbility
@@ -323,7 +349,7 @@ class character():
         self.carryWeight = int(self.abilities["Strength"]*15)
         self.dragWeight = int(self.abilities["Strength"]*30)
 
-        self.updateFeatureText()
+        self.performFeatureCallbacks()
 
 
     def exportCharacter(self):
