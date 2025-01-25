@@ -16,10 +16,9 @@ To use this program, you will need the official D&D 5e form-fillable character s
 ---
 
 ## **Disclaimer**
-- This program **does not include** the official D&D 5e character sheet or distribute any Wizards of the Coast intellectual property.
-- Users are required to obtain the blank character sheet themselves from an authorized source.
-- This program is **unaffiliated with, endorsed by, or sponsored by Wizards of the Coast**, the creators of Dungeons & Dragons®.
-- All trademarks, including "Dungeons & Dragons®," and copyrights are the property of Wizards of the Coast LLC.
+- This program includes that portion of Wizards of the Coast's intellectual property that is contained in the System Reference Document.
+- This program is **unaffiliated with, unendorsed by, and unsponsored by Wizards of the Coast**, the current owners of Dungeons & Dragons®.
+- All trademarks, including "Dungeons & Dragons®," and copyrights are at time of writing the property of Wizards of the Coast LLC.
 
 ---
 
