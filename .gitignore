@@ -2,16 +2,24 @@ scratchTest.py
 __pycache__/
 *.pyc
 
-
+venv/
+CharGen5e.egg-info/
 
 resources/CharSheet.pdf
 
 inputClasses.py
 
-# Ignore specific folders in Sources
-5eCharGenerator/Sources/PHB/
-5eCharGenerator/Sources/TCE/
-5eCharGenerator/Sources/XGE/
+# Ignore everything inside CharGen5e/Sources
+CharGen5e/Sources/*/
+
+# Don't ignore SRD/ and Custom/ folders
+!CharGen5e/Sources/SRD/
+!CharGen5e/Sources/Custom/
+
+# Don't ignore files inside SRD/ and Custom/ (if you add files or subdirectories later)
+!CharGen5e/Sources/SRD/**
+!CharGen5e/Sources/Custom/**
+
 
 # Ignore the resources folder in final distributions
 resources/
