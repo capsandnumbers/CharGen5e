@@ -2,12 +2,17 @@ scratchTest.py
 __pycache__/
 *.pyc
 
-fighterSubclasses.py
 
-PHBBackgrounds.py
-Races/PHBRaces.py
 
-CharSheet.pdf
+resources/CharSheet.pdf
 
 inputClasses.py
 
+# Ignore specific folders in Sources
+5eCharGenerator/Sources/PHB/
+5eCharGenerator/Sources/TCE/
+5eCharGenerator/Sources/XGE/
+
+# Ignore the resources folder in final distributions
+resources/
+!resources/CharSheetPDFVariables.xlsx

@@ -1,5 +1,5 @@
 # PHBRaces
-from .classDefs import *
+from CharGen5e.classDefs import *
 
 
 

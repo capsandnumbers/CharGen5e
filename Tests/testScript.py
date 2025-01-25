@@ -1,10 +1,8 @@
-from dndCharGenerator.character import *
-from Races.PHBRaces import *
-from Races.SRDRaces import *
-from dndCharGenerator.fighterClass import *
-from fighterSubclasses import *
-from dndCharGenerator.backgrounds import *
-from dndCharGenerator.PHBBackgrounds import *
+from CharGen5e.character import *
+from CharGen5e.Sources.SRD.Races.SRDRaces import *
+from CharGen5e.Sources.SRD.Classes.fighterClass import *
+from CharGen5e.Sources.SRD.Backgrounds.SRDBackgrounds import *
+from CharGen5e.outToPDF import *
 import os
 
 name = "Owain"
@@ -15,7 +13,7 @@ if os.path.exists(outString):
     os.remove(outString)
 
 
-Owain = character(name,20, Urchin, Fighter,Champion, Dwarf, HillDwarf)
+Owain = character(name,20, Acolyte, Fighter,Champion, Dwarf, HillDwarf)
 #Owain.exportCharacter()
 
 #print(Owain.skillMods)

@@ -1,7 +1,7 @@
 # Character
 
-from dndCharGenerator.classDefs import *
-from outToPDF import *
+from CharGen5e.classDefs import *
+from CharGen5e.outToPDF import *
 
 
 class character():

@@ -1,5 +1,5 @@
 # Class Defs
-from dndCharGenerator.header import *
+from CharGen5e.header import *
 
 # Here I dump many useful lists and dictionaries to be referenced by functions/methods, some need completing
 

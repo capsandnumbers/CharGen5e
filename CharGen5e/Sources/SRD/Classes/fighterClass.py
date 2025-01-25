@@ -1,6 +1,6 @@
 #FighterClass
 
-from dndCharGenerator.classDefs import *
+from CharGen5e.classDefs import *
 
 
 

@@ -1,6 +1,6 @@
 # PHBRaces
-from dndCharGenerator.classDefs import *
-from Races.SRDRaces import *
+from CharGen5e.classDefs import *
+from CharGen5e.Sources.SRD.Races.SRDRaces import *
 
 
 DwarvenArmorTrainingDesc = "You have proficiency with light and medium armor."

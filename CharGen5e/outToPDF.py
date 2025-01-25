@@ -1,7 +1,7 @@
 # outToPDF
 
 import pdfrw
-from dndCharGenerator.header import *
+from CharGen5e.header import *
 
 def printCharSheet(character):
 

@@ -1,7 +1,7 @@
 #FighterClass
 
-from dndCharGenerator.classDefs import *
-from dndCharGenerator.fighterClass import *
+from CharGen5e.classDefs import *
+from CharGen5e.Sources.SRD.Classes.fighterClass import *
 
 
 
