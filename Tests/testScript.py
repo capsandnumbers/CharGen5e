@@ -14,7 +14,7 @@ if os.path.exists(outString):
     os.remove(outString)
 
 
-Owain = character(name,2, Acolyte, Monk,Empty,Elf,HighElf)
+Owain = character(name,20, Acolyte, Monk,Empty,Elf,HighElf)
 #Owain.exportCharacter()
 
 #print(Owain.skillMods)
@@ -22,8 +22,6 @@ Owain = character(name,2, Acolyte, Monk,Empty,Elf,HighElf)
 #print(Owain.abilities,Owain.profMod)
 
 #Charles = character("Charles",5,Urchin,Fighter,Champion,Dwarf,HillDwarf)
-print("Owain")
+
 Owain.listFeatures()
-print(Owain.speed)
-print(Owain.AC)
-print(Owain.abilities)
+print(Owain.savingThrows)

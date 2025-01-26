@@ -156,7 +156,8 @@ def combineRace(inputRace, inputSubrace):
         else:
             combinedRace.proficiencies[category] = items
     
-    combinedRace.optionalProfs = inputRace.optionalProfs + inputSubrace.optionalProfs
+    combinedRace.optionalProfs = (inputRace.optionalProfs or []) + (inputSubrace.optionalProfs or [])
+
 
 
     combinedRace.featureList.extend(inputSubrace.featureList)  # Add subrace's feature list to race's
@@ -254,3 +255,35 @@ class feature():
             return replacePlaceholders(self.text,character)
         else:
             return self.textFunc(character)
+
+
+
+ASIDesc = "You can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature."
+
+def ASIFunc(character):
+    print(character.level)
+    print(character.charClass.ASISchedule)
+    if character.level in character.charClass.ASISchedule:
+        for i in range(2):  # Two ASI increases
+            abilities = character.charClass.abilityPreference
+            
+            # Filter preferred abilities to exclude those already at 20
+            eligibleAbilities = [ability for ability in abilities if character.abilities[ability] < 20]
+
+            if eligibleAbilities:
+                # Pick a preferred ability that is below 20
+                chosenAbility = r.choice(eligibleAbilities)
+            else:
+                # If all preferred abilities are 20, pick randomly from all abilities below 20
+                eligibleAbilities = [ability for ability in character.abilities if character.abilities[ability] < 20]
+                if not eligibleAbilities:
+                    #print("All abilities are already at 20. No ASI possible.")
+                    return  # Exit the function since no abilities can be increased
+                chosenAbility = r.choice(eligibleAbilities)
+
+            # Increase the chosen ability
+            character.abilities[chosenAbility] += 1
+
+
+
+ASI = feature("ASI","Class",ASIDesc, allLevels,function = ASIFunc,hideFeature=True)

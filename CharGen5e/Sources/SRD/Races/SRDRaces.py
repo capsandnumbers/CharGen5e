@@ -137,7 +137,7 @@ def CantripFunc(character):
     ]
     
     chosenSpell = r.choice(eligibleSpells)
-    character.spellDict.extend({chosenSpell, "Intelligence"}) # Test this!
+    character.spellDict[chosenSpell] = "Intelligence" # Test this!
 Cantrip = feature("Cantrip","Subrace",CantripDesc,function = CantripFunc,hideFeature = True )
 
 

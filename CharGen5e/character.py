@@ -3,6 +3,11 @@
 from CharGen5e.classDefs import *
 from CharGen5e.outToPDF import *
 
+ASIDesc = "You can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature."
+
+
+
+
 def ACDefaultFunc(self):
     return 10 + self.abilities["Dexterity"]
 
