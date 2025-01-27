@@ -2,6 +2,7 @@ from CharGen5e.character import *
 from CharGen5e.Sources.SRD.Races.SRDRaces import *
 from CharGen5e.Sources.SRD.Classes.fighterClass import *
 from CharGen5e.Sources.SRD.Classes.monkClass import *
+from CharGen5e.Sources.SRD.Subclasses.SRDMonkSubclasses import *
 from CharGen5e.Sources.SRD.Backgrounds.SRDBackgrounds import *
 from CharGen5e.outToPDF import *
 import os
@@ -14,7 +15,7 @@ if os.path.exists(outString):
     os.remove(outString)
 
 
-Owain = character(name,20, Acolyte, Monk,Empty,Elf,HighElf)
+Owain = character(name,20, Acolyte, Monk,OpenHand,Elf,HighElf)
 #Owain.exportCharacter()
 
 #print(Owain.skillMods)
@@ -24,4 +25,3 @@ Owain = character(name,20, Acolyte, Monk,Empty,Elf,HighElf)
 #Charles = character("Charles",5,Urchin,Fighter,Champion,Dwarf,HillDwarf)
 
 Owain.listFeatures()
-print(Owain.savingThrows)
