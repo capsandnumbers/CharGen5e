@@ -78,6 +78,14 @@ grimoire = {
         "components": ["V", "S"],
         "material": None
     },
+    "Minor Illusion": {
+        "level": 0,  # Cantrips are level 0
+        "description": "You create a sound or an image of an object within range",
+        "range": "30 feet",
+        "components": ["S", "M"],
+        "duration": "1 minute",
+        "material":  "A bit of fleece"
+    }
 }
 
 # Make spell list an attribute of charClass?
@@ -261,8 +269,8 @@ class feature():
 ASIDesc = "You can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature."
 
 def ASIFunc(character):
-    print(character.level)
-    print(character.charClass.ASISchedule)
+    #print(character.level)
+    #print(character.charClass.ASISchedule)
     if character.level in character.charClass.ASISchedule:
         for i in range(2):  # Two ASI increases
             abilities = character.charClass.abilityPreference

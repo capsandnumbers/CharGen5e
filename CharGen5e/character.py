@@ -36,7 +36,28 @@ class character():
             "Charisma": 0,
         }
 
-        self.spellDict = {} # Records list of spells with relevant spellcasting ability
+        self.spellDict = {0: [],
+                          1: [],
+                          2: [],
+                          3: [],
+                          4: [],
+                          5: [],
+                          6: [],
+                          7: [],
+                          8: [],
+                          9: [],} # Records list of spells with relevant spellcasting ability
+
+        self.spellSlots = {0: 0,
+                            1: 0, 
+                            2: 0,
+                            3: 0,
+                            4: 0,
+                            5: 0,
+                            6: 0,
+                            7: 0,
+                            8: 0,
+                            9: 0,}
+
 
         self.HP = int(0)
         self.HPRolls = []
@@ -214,6 +235,16 @@ class character():
                 self.proficiencies[category] = list(set(self.proficiencies[category] + items))
             else:
                 self.proficiencies[category] = list(set(items))
+
+
+    def addSpell(self, spellName):
+
+
+
+        spellLevel = grimoire[spellName]["level"]
+        #print(f"spellLevel is {spellLevel}")
+        #print(self.spellDict[0])
+        self.spellDict[spellLevel].append(spellName)#if spellName not in self.spellDict[spellLevel] else self.spellDict[spellLevel]
 
     def addProfFromList(self,listToChooseFrom,profCategory,numberToChoose = 1):
         eligibleProfs = [prof for prof in listToChooseFrom if prof not in self.proficiencies[profCategory]]
