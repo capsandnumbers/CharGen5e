@@ -344,7 +344,13 @@ class character():
         self.features = sortedFeatures
 
     def listFeatures(self):
+        workingFeatureList = self.features.copy()
+
         for feature in self.features:
+            if feature.replaces is not None:
+                workingFeatureList.remove(feature.replaces)
+                
+        for feature in workingFeatureList:
             if not feature.hideFeature:
                 print(feature.name)
                 print(feature.getText(self))

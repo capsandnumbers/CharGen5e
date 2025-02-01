@@ -151,3 +151,12 @@ def printCharSheet(character):
     )
 
     pdfrw.PdfWriter().write(output_pdf, input_pdf)
+
+
+
+
+
+
+
+
+

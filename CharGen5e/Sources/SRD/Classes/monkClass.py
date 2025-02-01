@@ -18,6 +18,10 @@ def MartialArtsCallback(character):
     1
 
 
+MartialArts = feature("Martial Arts","Class",MartialArtsDesc,MartialArtsText,textFunc = stagedReplacePlaceholders(MartialArtsSchedule,MartialArtsText,"{damageDie}"),callback = MartialArtsCallback)
+
+
+
 UnarmoredDefenseDesc = "Beginning at 1st level, while you are wearing no armor and not wielding a shield, your AC equals 10 + your Dexterity modifier + your Wisdom modifier."
 UnarmoredDefenseText = "While unarmored, your AC equals 10 + DEX + WIS"
 
@@ -29,9 +33,8 @@ def UnarmoredDefenceCallback(character):
         character.AC = 10 + character.abilityMods["Dexterity"] + character.abilityMods["Wisdom"]
 
 
-UnarmoredDefense = feature("Unarmored Defense","Class",UnarmoredDefenseDesc,text=UnarmoredDefenseText,callback=UnarmoredDefenceCallback)
+UnarmoredDefense = feature("Unarmored Defense","Class",UnarmoredDefenseDesc,UnarmoredDefenseText,callback=UnarmoredDefenceCallback)
 
-MartialArts = feature("Martial Arts","Class",MartialArtsDesc,type="Callback",textFunc = stagedReplacePlaceholders(MartialArtsSchedule,MartialArtsText,"{damageDie}"),callback = MartialArtsCallback)
 
 
 
@@ -42,16 +45,16 @@ KiText = "You have {level} ki points which refresh on a rest with 30 minutes of 
 def KiTextFunc(character):
     return "You have " + str(character.level) +  " ki points which refresh on a rest with 30 minutes of meditation. Ki save DC = "+ str(8 + character.profMod + character.abilityMods["Wisdom"]) +"."
 
-Ki = feature("Ki","Class",KiDesc,2,textFunc=KiTextFunc)
+Ki = feature("Ki","Class",KiDesc,KiText,2,textFunc=KiTextFunc)
 
 
 FlurryOfBlowsDesc = "Immediately after you take the Attack action on your turn, you can spend 1 ki point to make two unarmed strikes as a bonus action."
 FlurryOfBlowsText = "Immediately after taking the Attack action on your turn, spend 1 ki to make two unarmed strikes as a bonus action."
-FlurryOfBlows = feature("Flurry of Blows","Class",FlurryOfBlowsDesc,2,text = FlurryOfBlowsText)
+FlurryOfBlows = feature("Flurry of Blows","Class",FlurryOfBlowsDesc,FlurryOfBlowsText,2)
 
 PatientDefenseDesc = "You can spend 1 ki point to take the Dodge action as a bonus action on your turn."
 PatientDefenseText = "Spend 1 ki to take the Dodge action as a bonus action on your turn."
-PatientDefense = feature("Patient Defense","Class",PatientDefenseDesc,2,text = PatientDefenseText)
+PatientDefense = feature("Patient Defense","Class",PatientDefenseDesc, PatientDefenseText,2)
 
 
 StepOfTheWindDesc = "You can spend 1 ki point to take the Disengage or Dash action as a bonus action on your turn, and your jump distance is doubled for the turn."
@@ -136,17 +139,17 @@ TongueOfTheSunAndMoonText = "You understand all spoken languages and any creatur
 
 def TongueOfTheSunAndMoonCallback(character):
     character.proficiencies["language"] = ["All Spoken Languages"]
-TongueOfTheSunAndMoon = feature("Tongue of the Sun and Moon","Class",TongueOfTheSunAndMoonDesc,13,callback=TongueOfTheSunAndMoonCallback,text=TongueOfTheSunAndMoonText)
+TongueOfTheSunAndMoon = feature("Tongue of the Sun and Moon","Class",TongueOfTheSunAndMoonDesc,13,callback=TongueOfTheSunAndMoonCallback,text=TongueOfTheSunAndMoonText,hideFeature=True)
 
 DiamondSoulDesc = "Beginning at 14th level, your mastery of ki grants you proficiency in all saving throws. Additionally, whenever you make a saving throw and fail, you can spend 1 ki point to reroll it and take the second result."
-DiamondSoulText = "You are proficient in all saving throws. When you fail a save, spend 1 ki to reroll."
+DiamondSoulText = "Spend 1 ki to reroll a failed save."
 def DiamondSoulFunc(character):
     addToList(character.savingThrows,["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"])
 DiamondSoul = feature("Diamond Soul","Class",DiamondSoulDesc,14,function = DiamondSoulFunc,text = DiamondSoulText)
 
 
 TimelessBodyDesc = "At 15th level, your ki sustains you so that you suffer none of the frailty of old age, and you can't be aged magically. You can still die of old age, however. In addition, you no longer need food or water."
-TimelessBodyText = "You suffer none of the frailty of old age and you can't be aged magically but you still die of old age. You don't need food or water."
+TimelessBodyText = "You suffer no frailty of old age, can't be aged magically, don't need food or water, but old age will still get you."
 TimelessBody = feature("Timeless Body","Class",TimelessBodyDesc,15,text = TimelessBodyText)
 
 EmptyBodyDesc = "Beginning at 18th level, you can use your action to spend 4 ki points to become invisible for 1 minute. During that time, you also have resistance to all damage but force damage. Additionally, you can spend 8 ki points to cast the astral projection spell, without needing material components. When you do so, you can't take any other creatures with you."

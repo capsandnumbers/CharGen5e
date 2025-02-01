@@ -6,6 +6,8 @@ venv/
 CharGen5e.egg-info/
 Tests/
 
+Tests/testScript.py
+
 resources/CharSheet.pdf
 
 inputClasses.py

@@ -23,7 +23,23 @@ def addToList(oldList, newEntry):
     oldList.extend(unique_entries)
 
 
+def fromListToList(sourceList, destinationList, number = 1, remove = True):
+    eligibleList = [item for item in sourceList if item not in destinationList]
+    if number > len(eligibleList) and remove:
+        raise ValueError("Cannot choose more items than are available when `remove` is True.")
+    
 
+    workingList = eligibleList[:] if remove else eligibleList
+
+    outputList = []
+    for _ in range(number):
+
+        choice = r.choice(workingList)  # Randomly select an element
+        outputList.append(choice)
+        if remove:
+            workingList.remove(choice)  # Remove the chosen element only if `remove` is True
+    
+    addToList(destinationList,outputList)
 
 
 
