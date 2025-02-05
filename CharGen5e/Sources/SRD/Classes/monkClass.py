@@ -63,7 +63,7 @@ StepOfTheWindText = "Spend 1 ki to take the Disengage or Dash action as a bonus 
 def StepOfTheWindTextFunc(character):
     return "Spend 1 ki to take the Disengage or Dash action as a bonus action on your turn, and your jump distances are doubled for the turn. Long jump: "+ str(2*character.longJumpDistance) +"ft., High jump: "+ str(2*character.highJumpDistance) +" ft."
 
-StepOfTheWind = feature("Step of the Wind","Class",StepOfTheWindDesc,2,text = StepOfTheWindText)
+StepOfTheWind = feature("Step of the Wind","Class",StepOfTheWindDesc,StepOfTheWindText,2)
 
 
 UnarmoredMovementSchedule = {
@@ -84,14 +84,14 @@ UnarmoredMovementTextSchedule = {
     2: "While unarmored your speed increases."
 }
 
-UnarmoredMovement = feature("Unarmored Movement","Class",UnarmoredMovementDesc,2,textFunc=stagedUpdate(UnarmoredMovementTextSchedule),callback = UnarmoredMovementCallback)
+UnarmoredMovement = feature("Unarmored Movement","Class",UnarmoredMovementDesc,None,2,textFunc=stagedUpdate(UnarmoredMovementTextSchedule),callback = UnarmoredMovementCallback)
 
 DeflectMissilesDesc = "Starting at 3rd level, you can use your reaction to deflect or catch the missile when you are hit by a ranged weapon attack. When you do so, the damage you take from the attack is reduced by 1d10 + your Dexterity modifier + your monk level. If you reduce the damage to 0, you can catch the missile if it is small enough for you to hold in one hand and you have at least one hand free. If you catch a missile in this way, you can spend 1 ki point to make a ranged attack with a range of 20/60 using the weapon or piece of ammunition you just caught, as part of the same reaction. You make this attack with proficiency, regardless of your weapon proficiencies, and the missile counts as a monk weapon for the attack."
 DeflectMissilesText = "As a reaction, catch a missile that hit you, reducing the damage by 1d10 + your Dexterity modifier + your monk level. If you reduce the damage to 0, you can catch the missile. Then spend 1 ki to redirect it, range 20/60. The missile is a monk weapon you're proficient with."
 def DeflectMissilesTextFunc(character):
     damage = str(character.abilities["Dexterity"]+ character.level)
     return "As a reaction, catch a missile that hit you, reducing the damage by 1d10 + " + damage + ". If you reduce the damage to 0 you can catch the missile. Then spend 1 ki to immediately redirect it, range 20/60. The missile is a monk weapon you're proficient with."
-DeflectMissiles = feature("Deflect Missiles","Class",DeflectMissilesDesc,3,text=DeflectMissilesText,textFunc=DeflectMissilesTextFunc)
+DeflectMissiles = feature("Deflect Missiles","Class",DeflectMissilesDesc,DeflectMissilesText,3,textFunc=DeflectMissilesTextFunc)
 
 
 
@@ -100,37 +100,37 @@ SlowFallDesc = "Beginning at 4th level, you can use your reaction when you fall 
 SlowFallText = "Use your reaction when you fall to reduce any falling damage you take by five times your monk level."
 def SlowFallTextFunc(character):
     return "Use your reaction when you fall to reduce any falling damage you take by five times your monk level, ("+str(5*character.level)+")."
-SlowFall = feature("Slow Fall","Class",SlowFallDesc,4,textFunc=SlowFallTextFunc)
+SlowFall = feature("Slow Fall","Class",SlowFallDesc,SlowFallText,4,textFunc=SlowFallTextFunc)
 
 
 
 
 ExtraAttackDesc = "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
 ExtraAttackText = "You can attack twice when you take the Attack action on your turn."
-ExtraAttackMonk = feature("Extra Attack","Class",ExtraAttackDesc,5,text=ExtraAttackText)
+ExtraAttackMonk = feature("Extra Attack","Class",ExtraAttackDesc,None,5)
 
 
 StunningStrikeDesc = "Starting at 5th level, you can interfere with the flow of ki in an opponent's body. When you hit another creature with a melee weapon attack, you can spend 1 ki point to attempt a stunning strike. The target must succeed on a Constitution saving throw or be stunned until the end of your next turn."
 StunningStrikeText = "When you hit with a melee weapon, spend 1 ki to force the target to make a CON save, or be stunned until the end of your next turn."
-StunningStrike  = feature("Stunning Strike","Class",StunningStrikeDesc,5,text=StunningStrikeText)
+StunningStrike  = feature("Stunning Strike","Class",StunningStrikeDesc,StunningStrikeText,5)
 
 KiEmpoweredStrikesDesc = "Starting at 6th level, your unarmed strikes count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage."
 KiEmpoweredStrikesText = "Your unarmed strikes count as magical weapons"
-KiEmpoweredStrikes = feature("Ki-Empowered Strikes","Class",KiEmpoweredStrikesDesc,6,text=KiEmpoweredStrikesText)
+KiEmpoweredStrikes = feature("Ki-Empowered Strikes","Class",KiEmpoweredStrikesDesc,KiEmpoweredStrikesText,6)
 
 EvasionDesc = "At 7th level, your instinctive agility lets you dodge out of the way of certain area effects, such as a blue dragon's lightning breath or a fireball spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail."
 EvasionText = "When you make a DEX save to take half damage, you instead take no damage on a success and half damage on a failure."
-Evasion = feature("Evasion","Class",EvasionDesc,7,text=EvasionText)
+Evasion = feature("Evasion","Class",EvasionDesc,EvasionText,7)
 
 StillnessOfMindDesc = "Starting at 7th level, you can use your action to end one effect on yourself that is causing you to be charmed or frightened."
 StillnessOfMindText = "As an action, end one effect making you charmed or frightened."
-StillnessOfMind = feature("Stillness of Mind","Class",StillnessOfMindDesc,7,text=StillnessOfMindText)
+StillnessOfMind = feature("Stillness of Mind","Class",StillnessOfMindDesc,StillnessOfMindText,7)
 
 PurityOfBodyDesc = "At 10th level, your mastery of the ki flowing through you makes you immune to disease and poison."
 PurityOfBodyText = "You are immune to disease and poison"
 def PurityOfBodyFunc(character):
     addToList(character.damageImmunities,"Poison")
-PurityOfBody = feature("Stillness of Mind","Class",PurityOfBodyDesc,10,function=PurityOfBodyFunc,text=PurityOfBodyText)
+PurityOfBody = feature("Stillness of Mind","Class",PurityOfBodyDesc,PurityOfBodyText,10,function=PurityOfBodyFunc)
 
 
 
@@ -139,26 +139,26 @@ TongueOfTheSunAndMoonText = "You understand all spoken languages and any creatur
 
 def TongueOfTheSunAndMoonCallback(character):
     character.proficiencies["language"] = ["All Spoken Languages"]
-TongueOfTheSunAndMoon = feature("Tongue of the Sun and Moon","Class",TongueOfTheSunAndMoonDesc,13,callback=TongueOfTheSunAndMoonCallback,text=TongueOfTheSunAndMoonText,hideFeature=True)
+TongueOfTheSunAndMoon = feature("Tongue of the Sun and Moon","Class",TongueOfTheSunAndMoonDesc,TongueOfTheSunAndMoonText,13,callback=TongueOfTheSunAndMoonCallback,hideFeature=True)
 
 DiamondSoulDesc = "Beginning at 14th level, your mastery of ki grants you proficiency in all saving throws. Additionally, whenever you make a saving throw and fail, you can spend 1 ki point to reroll it and take the second result."
 DiamondSoulText = "Spend 1 ki to reroll a failed save."
 def DiamondSoulFunc(character):
     addToList(character.savingThrows,["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"])
-DiamondSoul = feature("Diamond Soul","Class",DiamondSoulDesc,14,function = DiamondSoulFunc,text = DiamondSoulText)
+DiamondSoul = feature("Diamond Soul","Class",DiamondSoulDesc,DiamondSoulText,14,function = DiamondSoulFunc)
 
 
 TimelessBodyDesc = "At 15th level, your ki sustains you so that you suffer none of the frailty of old age, and you can't be aged magically. You can still die of old age, however. In addition, you no longer need food or water."
 TimelessBodyText = "You suffer no frailty of old age, can't be aged magically, don't need food or water, but old age will still get you."
-TimelessBody = feature("Timeless Body","Class",TimelessBodyDesc,15,text = TimelessBodyText)
+TimelessBody = feature("Timeless Body","Class",TimelessBodyDesc, TimelessBodyText,15)
 
 EmptyBodyDesc = "Beginning at 18th level, you can use your action to spend 4 ki points to become invisible for 1 minute. During that time, you also have resistance to all damage but force damage. Additionally, you can spend 8 ki points to cast the astral projection spell, without needing material components. When you do so, you can't take any other creatures with you."
 EmptyBodyText = "As an action, spend 4 ki to go invisible for 1 minute, with resistance to all but force damage. Spend 8 ki to cast Astral Projection without material components. When you do, you go alone."
-EmptyBody = feature("Empty Body","Class",EmptyBodyDesc,18,text = EmptyBodyText)
+EmptyBody = feature("Empty Body","Class",EmptyBodyDesc, EmptyBodyText,18)
 
 PerfectSelfDesc = "At 20th level, when you roll for initiative and have no ki points remaining, you regain 4 ki points."
 PerfectSelfText = "When you roll initiative and have no ki points remaining, you regain 4 ki."
-PerfectSelf = feature("Perfect Self","Class",PerfectSelfDesc,19,text = PerfectSelfText)
+PerfectSelf = feature("Perfect Self","Class",PerfectSelfDesc, PerfectSelfText,19)
 
 
 

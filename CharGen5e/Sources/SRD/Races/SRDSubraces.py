@@ -12,7 +12,7 @@ def DwarvenToughnessFunc(character):
     # Assume that the character will never lose this feature
     
     character.HP += 1
-DwarvenToughness = feature("Dwarven Toughness","Subrace",DwarvenToughnessDesc,levelsActive = allLevels, function = DwarvenToughnessFunc)
+DwarvenToughness = feature("Dwarven Toughness","Subrace",DwarvenToughnessDesc,None,levelsActive = allLevels, function = DwarvenToughnessFunc,hideFeature=True)
 
 
 
@@ -30,7 +30,7 @@ def ExtraLanguageFunc(character):
     eligibleLanguages = [lang for lang in allLanguages if lang not in character.proficiencies["language"]]
     chosenLang = r.choice(eligibleLanguages)
     character.addProficiency({"language":[chosenLang]})
-ExtraLanguage = feature("Extra Language", "Subrace", ExtraLanguageDesc, function = ExtraLanguageFunc, hideFeature = True)
+ExtraLanguage = feature("Extra Language", "Subrace", ExtraLanguageDesc, None,function = ExtraLanguageFunc, hideFeature = True)
 
 
 CantripDesc = "You know one cantrip of your choice from the Wizard spell list. Intelligence is your spellcasting ability for it."
@@ -44,7 +44,7 @@ def CantripFunc(character):
     
     chosenSpell = r.choice(eligibleSpells)
     character.spellDict[0].append(chosenSpell) # Test this!
-Cantrip = feature("Cantrip","Subrace",CantripDesc,function = CantripFunc,hideFeature = True )
+Cantrip = feature("Cantrip","Subrace",CantripDesc,None,function = CantripFunc,hideFeature = True )
 
 
 HighElfBonuses = {"Intelligence": 1}
@@ -53,7 +53,7 @@ HighElf = subrace("High Elf", Elf, HighElfBonuses,HighElfFeatureList)
 
 
 
-NaturallyStealthy = feature("Naturally Stealthy","Subrace","You can attempt to hide even when you are only obscured by a creature that is at least one size larger than you.")
+NaturallyStealthy = feature("Naturally Stealthy","Subrace","You can attempt to hide even when you are only obscured by a creature that is at least one size larger than you.","You can try to hide while obscured by a creature one size larger.")
 LightfootHalfling = subrace("Lightfoot Halfling",Halfling,{"Charisma": 1},[NaturallyStealthy])
 
 

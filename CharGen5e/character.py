@@ -258,6 +258,7 @@ class character():
                 array = entry[0]
                 category = entry[1]
                 number = entry[2]
+                print(array,category,number)
                 self.addProfFromList(array, category, number)
 
 

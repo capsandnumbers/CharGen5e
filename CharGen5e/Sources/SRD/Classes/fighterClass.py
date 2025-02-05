@@ -13,18 +13,18 @@ ActionSurgeSchedule = {
     1: "On your turn, you can take one additional action. Use once per rest"
 }
 
-ActionSurge = feature("Action Surge","Class",ActionSurgeDesc,[1,17],textFunc=stagedUpdate(ActionSurgeSchedule))
+ActionSurge = feature("Action Surge","Class",ActionSurgeDesc,None,[1,17],textFunc=stagedUpdate(ActionSurgeSchedule))
 
 
 
 SecondWindDesc = "You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. Once you use this feature, you must finish a short or long rest before you can use it again."
 SecondWindText = "As a bonus action on your turn: Regain HP equal to 1d10 + {level}. Use once per rest."
 
-SecondWind = feature("Second Wind","Class",SecondWindDesc,allLevels,text=SecondWindText)
+SecondWind = feature("Second Wind","Class",SecondWindDesc,SecondWindText,allLevels)
 
 FightingStyleDesc = "You adopt a particular style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again."
 FightingStyleText = "You have a particular style of fighting as a specialty: "
-def FightingStyleFunc(character):
+def FightingStyleTextFunc(character):
 
 
 
@@ -45,9 +45,9 @@ def FightingStyleFunc(character):
 
 
             if choice in styles:
-                feature.text = styles[choice]
+                return styles[choice]
 
-FightingStyle = feature("Fighting Style","Class", FightingStyleDesc,1,FightingStyleFunc,text=FightingStyleText)
+FightingStyle = feature("Fighting Style","Class", FightingStyleDesc,FightingStyleText,textFunc=FightingStyleTextFunc)
     
 
 ExtraAttackDesc = "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn. The number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class."
@@ -60,7 +60,7 @@ ExtraAttackSchedule = {
 }
 
 
-ExtraAttackFighter = feature("Extra Attack","Class",ExtraAttackDesc,5,textFunc=stagedUpdate(ExtraAttackSchedule))
+ExtraAttackFighter = feature("Extra Attack","Class",ExtraAttackDesc,None,5,textFunc=stagedUpdate(ExtraAttackSchedule))
 
 
 IndomitableDesc = "Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a long rest. You can use this feature twice between long rests starting at 13th level and three times between long rests starting at 17th level."
@@ -73,7 +73,7 @@ IndomitableSchedule = {
     9: "Once per long rest you can reroll a saving throw that you fail. You must use the new roll."
 }
 
-Indomitable = feature("Indomitable","Class",IndomitableDesc,9,textFunc=stagedUpdate(IndomitableSchedule),text=IndomitableText)
+Indomitable = feature("Indomitable","Class",IndomitableDesc,IndomitableText,9,textFunc=stagedUpdate(IndomitableSchedule))
 
 
 
