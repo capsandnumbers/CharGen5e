@@ -20,7 +20,7 @@ allSkills = {
     "Perception": "Wisdom",
     "Performance": "Charisma",
     "Persuasion": "Charisma",
-    "Religion": "Dexterity",
+    "Religion": "Wisdom",
     "Sleight of Hand": "Dexterity",
     "Stealth": "Dexterity",
     "Survival":"Wisdom"

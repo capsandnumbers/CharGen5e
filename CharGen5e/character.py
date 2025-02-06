@@ -61,7 +61,7 @@ class character():
 
         self.HP = int(0)
         self.HPRolls = []
-        self.profMod = 2
+        self.profBonus = 2
         self.level = 0
 
 
@@ -120,8 +120,8 @@ class character():
         self.rollAbilities()
         self.updateAbilityMods()
 
-        self.longJumpDistance = self.abilities["Strength"]
-        self.highJumpDistance = 3 + self.abilityMods["Strength"]
+        #self.longJumpDistance = self.abilities["Strength"]
+        #self.highJumpDistance = 3 + self.abilityMods["Strength"]
 
 
 
@@ -356,6 +356,8 @@ class character():
                 print(feature.name)
                 print(feature.getText(self))
 
+
+
     def updateAbilityMods(self):
         for ability in self.abilityMods:
             self.abilityMods[ability] = abMod(self.abilities[ability])
@@ -366,7 +368,7 @@ class character():
             governingAbilityMod = self.abilityMods[governingAbility]
             skillMod = governingAbilityMod
             if skill in self.proficiencies["skill"]:
-                skillMod += self.profMod
+                skillMod += self.profBonus
             self.skillMods[skill] = skillMod
 
     def updateHP(self):
@@ -385,12 +387,14 @@ class character():
 
 
     def performUpdates(self):
+        self.profBonus = int(np.ceil(self.level/4) + 1)
         self.updateAbilityMods()
         self.updateSkillMods()
         self.updateHP()
-        self.profBonus = int(np.ceil(self.level/4) + 1)
+        
         self.carryWeight = int(self.abilities["Strength"]*15)
         self.dragWeight = int(self.abilities["Strength"]*30)
+        self.initMod = self.abilityMods["Dexterity"]
 
         self.performFeatureCallbacks()
 
