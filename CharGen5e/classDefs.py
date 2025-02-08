@@ -223,7 +223,8 @@ def replacePlaceholders(text, character):
     stats = {
         "level": character.level,
         "CON": character.abilityMods["Constitution"],
-        "WIS": character.abilityMods["Wisdom"]
+        "WIS": character.abilityMods["Wisdom"],
+        "ProfBonus": character.profBonus
         # Add other stats as needed
     }
 

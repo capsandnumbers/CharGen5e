@@ -268,6 +268,12 @@ class character():
         self.addProficiency(self.background.proficiencies)
         self.handleOptionalProfs(self.background)
 
+    def setHeightWeight(self,race):
+        self.height = 70 # Inches
+        self.weight = 100 # Units
+
+
+
     def applyRace(self): # And subrace
         
         # Add race and subrace bonuses to ability scores
@@ -286,7 +292,7 @@ class character():
         
     
 
-
+        self.setHeightWeight(self.race)
 
     def applyClass(self):
 

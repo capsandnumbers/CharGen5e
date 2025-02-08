@@ -1,5 +1,5 @@
 from CharGen5e.classDefs import *
-from CharGen5e.Sources.SRD.Races.SRDRaces import *
+from CharGen5e.Sources.SRD.Races import *
 
 
 
