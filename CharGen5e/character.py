@@ -201,14 +201,21 @@ class character():
     def rollAbilities(self):
         # Define all ability names and remove the preferred one(s)
 
-        nonPreferred = [ability for ability in allAbilities if ability not in self.charClass.abilityPreference]
+        if self.charSubclass.abilityPreference:
+            abilityPreference = self.charSubclass.abilityPreference
+        else:
+            abilityPreference = self.charClass.abilityPreference
+        
+
+        nonPreferred = [ability for ability in allAbilities if ability not in abilityPreference]
         
         # Shuffle the non-preferred abilities
         np.random.shuffle(nonPreferred)
         
         # Final order: preferred first, then shuffled non-preferred
-        abilitiesInOrder = self.charClass.abilityPreference.copy()
+        abilitiesInOrder = abilityPreference.copy()
         abilitiesInOrder.extend(nonPreferred)
+        print(abilitiesInOrder)
         
         # Roll 6 sets of abilities
         rolledAbilities = []
@@ -296,7 +303,7 @@ class character():
 
     def applyClass(self):
 
-
+        
 
         eligibleSkills = [skill for skill in self.charClass.classSkills if skill not in self.proficiencies["skill"]]
 
@@ -387,9 +394,11 @@ class character():
 
 
 
-    def setUpCasting(self,casterAbility):
-        self.casterAbility = casterAbility
-        self.spellList = wizardSpellList
+    def setUpCasting(self,casterAbility,inputSpellList):
+        self.caster = True
+        #self.casterAbility = casterAbility
+        #self.spellList = inputSpellList
+        #self.spellDC = 8 + 
 
 
     def performUpdates(self):

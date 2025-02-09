@@ -35,7 +35,7 @@ if os.path.exists(outString):
 
 
 
-Owain = character(name,20, TestBackground, Fighter,RuneKnight,TestRace)
+Owain = character(name,1, TestBackground, Fighter,RuneKnight,TestRace)
 
 Owain.listFeatures()
 
