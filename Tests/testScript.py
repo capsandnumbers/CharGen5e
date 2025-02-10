@@ -35,7 +35,7 @@ if os.path.exists(outString):
 
 
 
-Owain = character(name,1, TestBackground, Fighter,RuneKnight,TestRace)
+Owain = character(name,1, TestBackground, Fighter,EldritchKnight,TestRace)
 
 Owain.listFeatures()
 
@@ -46,3 +46,4 @@ print(Owain.abilities)
 #print(Owain.abilityMods,Owain.profBonus)
 
 print(Owain.height)
+print(Owain.spellDict)

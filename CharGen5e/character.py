@@ -392,15 +392,6 @@ class character():
         
             feature.callback(self)
 
-
-
-    def setUpCasting(self,casterAbility,inputSpellList):
-        self.caster = True
-        #self.casterAbility = casterAbility
-        #self.spellList = inputSpellList
-        #self.spellDC = 8 + 
-
-
     def performUpdates(self):
         self.profBonus = int(np.ceil(self.level/4) + 1)
         self.updateAbilityMods()
@@ -412,6 +403,40 @@ class character():
         self.initMod = self.abilityMods["Dexterity"]
 
         self.performFeatureCallbacks()
+
+
+    def setUpCasting(self,casterAbility,inputSpellList):
+        self.caster = True
+        #self.casterAbility = casterAbility
+        #self.spellList = inputSpellList
+        #self.spellDC = 8 + 
+
+
+    def learnSpell(self, condition = lambda spell: True, number = 1):
+        # Filter available spells from the grimoire based on the condition
+        
+
+        availableSpells = [spell for spell, details in grimoire.items() if condition(details) and spell not in self.spellDict[details["level"]]]
+
+        #if not available_spells:
+        #    print("No spells match the condition.")
+        #    return
+        
+        # Prompt or automatically select a spell (example: first available spell)
+        #selectedSpell = availableSpells[0]  # Could add user interaction instead
+        spellLevel = grimoire[selectedSpell]["level"]
+
+
+        
+        fromListToList(availableSpells,self.spellDict[spellLevel],number)
+
+        # Add the spell to the corresponding level list in spellDict
+        #if selected_spell not in self.spellDict[spell_level]:
+        #    self.spellDict[spell_level].append(selected_spell)
+        #    print(f"Learned spell: {selected_spell}")
+        #else:
+        #    print(f"{selected_spell} is already known.")
+
 
 
     def exportCharacter(self):
