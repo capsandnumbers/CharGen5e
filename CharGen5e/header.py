@@ -1,4 +1,4 @@
-from os import remove
+from os import *
 import numpy as np
 import random as r
 import inspect

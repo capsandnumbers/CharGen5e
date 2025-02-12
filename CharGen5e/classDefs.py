@@ -1,5 +1,8 @@
 # Class Defs
 from CharGen5e.header import *
+import json
+import os
+from pathlib import Path
 
 # Here I dump many useful lists and dictionaries to be referenced by functions/methods, some need completing
 
@@ -48,7 +51,43 @@ allProfs = {
     "Light Armor": "Armor"
 }
 
-weaponsDict = {'Club': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 0.1, 'Damage': '1d4', 'DamageType': 'bludgeoning', 'Weight': 2.0, 'Properties': "['Light']"}, 'Dagger': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 2.0, 'Damage': '1d4', 'DamageType': 'piercing', 'Weight': 1.0, 'Properties': "['Finesse','Light']"}, 'Greatclub': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 0.2, 'Damage': '1d8', 'DamageType': 'bludgeoning', 'Weight': 10.0, 'Properties': "['Two-Handed']"}, 'Handaxe': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d6', 'DamageType': 'slashing', 'Weight': 2.0, 'Properties': "['Light','Thrown (20/60)']"}, 'Javelin': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 0.5, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Thrown (30/120)']"}, 'Light hammer': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 2.0, 'Damage': '1d4', 'DamageType': 'bludgeoning', 'Weight': 2.0, 'Properties': "['Light','Thrown (20/60)']"}, 'Mace': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d6', 'DamageType': 'bludgeoning', 'Weight': 4.0, 'Properties': '[]'}, 'Quarterstaff': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 0.2, 'Damage': '1d6', 'DamageType': 'bludgeoning', 'Weight': 4.0, 'Properties': "['Versatile (1d8)']"}, 'Sickle': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 1.0, 'Damage': '1d4', 'DamageType': 'slashing', 'Weight': 2.0, 'Properties': "['Light']"}, 'Spear': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 1.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 3.0, 'Properties': "['Thrown (20/60)','Versatile (1d8)']"}, 'Light Crossbow': {'Expertise': 'Simple', 'CombatType': 'Ranged', 'Cost': 25.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 5.0, 'Properties': "['Ammunition','Range (80/320)']"}, 'Dart': {'Expertise': 'Simple', 'CombatType': 'Ranged', 'Cost': 0.05, 'Damage': '1d4', 'DamageType': 'piercing', 'Weight': 0.25, 'Properties': "['Finesse','Thrown (20/60)']"}, 'Shortbow': {'Expertise': 'Simple', 'CombatType': 'Ranged', 'Cost': 25.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Ammunition','Range (80/320)']"}, 'Sling': {'Expertise': 'Simple', 'CombatType': 'Ranged', 'Cost': 0.1, 'Damage': '1d4', 'DamageType': 'bludgeoning', 'Weight': 0.0, 'Properties': "['Ammunition','Range (30/120)']"}, 'Battleaxe': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '1d8', 'DamageType': 'slashing', 'Weight': 4.0, 'Properties': "['Versatile (1d10)']"}, 'Flail': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '1d8', 'DamageType': 'bludgeoning', 'Weight': 2.0, 'Properties': '[]'}, 'Glaive': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 20.0, 'Damage': '1d10', 'DamageType': 'slashing', 'Weight': 6.0, 'Properties': "['Heavy','Reach']"}, 'Greataxe': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 30.0, 'Damage': '1d12', 'DamageType': 'slashing', 'Weight': 7.0, 'Properties': "['Heavy','Two-Handed']"}, 'Greatsword': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 50.0, 'Damage': '2d6', 'DamageType': 'slashing', 'Weight': 6.0, 'Properties': "['Heavy','Two-Handed']"}, 'Halberd': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 20.0, 'Damage': '1d10', 'DamageType': 'slashing', 'Weight': 6.0, 'Properties': "['Heavy','Reach']"}, 'Special': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '1d12', 'DamageType': 'piercing', 'Weight': 6.0, 'Properties': "['Reach','Lance']"}, 'Longsword': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 15.0, 'Damage': '1d8', 'DamageType': 'slashing', 'Weight': 3.0, 'Properties': "['Versatile (1d10)']"}, 'Maul': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '2d6', 'DamageType': 'bludgeoning', 'Weight': 10.0, 'Properties': "['Heavy','Two-Handed']"}, 'Morningstar': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 15.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 4.0, 'Properties': '[]'}, 'Pike': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d10', 'DamageType': 'piercing', 'Weight': 18.0, 'Properties': "['Heavy','Reach']"}, 'Rapier': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 25.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Finesse']"}, 'Scimitar': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 25.0, 'Damage': '1d6', 'DamageType': 'slashing', 'Weight': 3.0, 'Properties': "['Finesse','Light']"}, 'Shortsword': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Finesse','Light']"}, 'Trident': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 4.0, 'Properties': "['Thrown (20/60)','Versatile (1d8)']"}, 'War pick': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': '[]'}, 'Warhammer': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 15.0, 'Damage': '1d8', 'DamageType': 'bludgeoning', 'Weight': 2.0, 'Properties': "['Versatile (1d10)']"}, 'Whip': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 2.0, 'Damage': '1d4', 'DamageType': 'slashing', 'Weight': 3.0, 'Properties': "['Finesse','Reach']"}, 'Blowgun': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 10.0, 'Damage': 1, 'DamageType': 'piercing', 'Weight': 1.0, 'Properties': "['Ammunition','Range (25/100)']"}, 'Hand Crossbow': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 75.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 3.0, 'Properties': "['Ammunition','Range (30/120)']"}, 'Heavy Crossbow': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 50.0, 'Damage': '1d10', 'DamageType': 'piercing', 'Weight': 18.0, 'Properties': "['Ammunition','Range (100/400)']"}, 'Longbow': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 50.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Ammunition','Range (150/600)']"}, 'Special': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 1.0, 'Weight': 3.0, 'Properties': "['Net','Thrown (5/15)']"}}
+weaponsDict = {'Club': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 0.1, 'Damage': '1d4', 'DamageType': 'bludgeoning', 'Weight': 2.0, 'Properties': "['Light']"}, 
+               'Dagger': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 2.0, 'Damage': '1d4', 'DamageType': 'piercing', 'Weight': 1.0, 'Properties': "['Finesse','Light']"}, 
+               'Greatclub': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 0.2, 'Damage': '1d8', 'DamageType': 'bludgeoning', 'Weight': 10.0, 'Properties': "['Two-Handed']"}, 
+               'Handaxe': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d6', 'DamageType': 'slashing', 'Weight': 2.0, 'Properties': "['Light','Thrown (20/60)']"}, 
+               'Javelin': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 0.5, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Thrown (30/120)']"}, 
+               'Light hammer': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 2.0, 'Damage': '1d4', 'DamageType': 'bludgeoning', 'Weight': 2.0, 'Properties': "['Light','Thrown (20/60)']"}, 
+               'Mace': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d6', 'DamageType': 'bludgeoning', 'Weight': 4.0, 'Properties': '[]'}, 
+               'Quarterstaff': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 0.2, 'Damage': '1d6', 'DamageType': 'bludgeoning', 'Weight': 4.0, 'Properties': "['Versatile (1d8)']"}, 
+               'Sickle': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 1.0, 'Damage': '1d4', 'DamageType': 'slashing', 'Weight': 2.0, 'Properties': "['Light']"}, 
+               'Spear': {'Expertise': 'Simple', 'CombatType': 'Melee', 'Cost': 1.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 3.0, 'Properties': "['Thrown (20/60)','Versatile (1d8)']"}, 
+               'Light Crossbow': {'Expertise': 'Simple', 'CombatType': 'Ranged', 'Cost': 25.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 5.0, 'Properties': "['Ammunition','Range (80/320)']"}, 
+               'Dart': {'Expertise': 'Simple', 'CombatType': 'Ranged', 'Cost': 0.05, 'Damage': '1d4', 'DamageType': 'piercing', 'Weight': 0.25, 'Properties': "['Finesse','Thrown (20/60)']"}, 
+               'Shortbow': {'Expertise': 'Simple', 'CombatType': 'Ranged', 'Cost': 25.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Ammunition','Range (80/320)']"}, 
+               'Sling': {'Expertise': 'Simple', 'CombatType': 'Ranged', 'Cost': 0.1, 'Damage': '1d4', 'DamageType': 'bludgeoning', 'Weight': 0.0, 'Properties': "['Ammunition','Range (30/120)']"}, 
+               'Battleaxe': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '1d8', 'DamageType': 'slashing', 'Weight': 4.0, 'Properties': "['Versatile (1d10)']"}, 
+               'Flail': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '1d8', 'DamageType': 'bludgeoning', 'Weight': 2.0, 'Properties': '[]'}, 
+               'Glaive': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 20.0, 'Damage': '1d10', 'DamageType': 'slashing', 'Weight': 6.0, 'Properties': "['Heavy','Reach']"},      
+               'Greataxe': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 30.0, 'Damage': '1d12', 'DamageType': 'slashing', 'Weight': 7.0, 'Properties': "['Heavy','Two-Handed']"}, 
+               'Greatsword': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 50.0, 'Damage': '2d6', 'DamageType': 'slashing', 'Weight': 6.0, 'Properties': "['Heavy','Two-Handed']"}, 
+               'Halberd': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 20.0, 'Damage': '1d10', 'DamageType': 'slashing', 'Weight': 6.0, 'Properties': "['Heavy','Reach']"}, 
+               'Lance': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '1d12', 'DamageType': 'piercing', 'Weight': 6.0, 'Properties': "['Reach','Special']"}, 
+               'Longsword': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 15.0, 'Damage': '1d8', 'DamageType': 'slashing', 'Weight': 3.0, 'Properties': "['Versatile (1d10)']"}, 
+               'Maul': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '2d6', 'DamageType': 'bludgeoning', 'Weight': 10.0, 'Properties': "['Heavy','Two-Handed']"},  
+               'Morningstar': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 15.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 4.0, 'Properties': '[]'}, 
+               'Pike': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d10', 'DamageType': 'piercing', 'Weight': 18.0, 'Properties': "['Heavy','Reach']"}, 
+               'Rapier': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 25.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Finesse']"},             
+               'Scimitar': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 25.0, 'Damage': '1d6', 'DamageType': 'slashing', 'Weight': 3.0, 'Properties': "['Finesse','Light']"},                
+               'Shortsword': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 10.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Finesse','Light']"}, 
+               'Trident': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 4.0, 'Properties': "['Thrown (20/60)','Versatile (1d8)']"}, 
+               'War pick': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 5.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': '[]'},                                  
+               'Warhammer': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 15.0, 'Damage': '1d8', 'DamageType': 'bludgeoning', 'Weight': 2.0, 'Properties': "['Versatile (1d10)']"},                
+               'Whip': {'Expertise': 'Martial', 'CombatType': 'Melee', 'Cost': 2.0, 'Damage': '1d4', 'DamageType': 'slashing', 'Weight': 3.0, 'Properties': "['Finesse','Reach']"}, 
+               'Blowgun': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 10.0, 'Damage': 1, 'DamageType': 'piercing', 'Weight': 1.0, 'Properties': "['Ammunition','Range (25/100)']"}, 
+               'Hand Crossbow': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 75.0, 'Damage': '1d6', 'DamageType': 'piercing', 'Weight': 3.0, 'Properties': "['Ammunition','Range (30/120)']"}, 
+               'Heavy Crossbow': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 50.0, 'Damage': '1d10', 'DamageType': 'piercing', 'Weight': 18.0, 'Properties': "['Ammunition','Range (100/400)']"}, 
+               'Longbow': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 50.0, 'Damage': '1d8', 'DamageType': 'piercing', 'Weight': 2.0, 'Properties': "['Ammunition','Range (150/600)']"}, 
+               'Net': {'Expertise': 'Martial', 'CombatType': 'Ranged', 'Cost': 1.0, 'Weight': 3.0, 'Properties': "['Special','Thrown (5/15)']"}}
 
 
 simpleWeapons  = [weapon for weapon, info in weaponsDict.items() if info['Expertise'] == 'Simple']
@@ -58,46 +97,35 @@ martialWeapons = [weapon for weapon, info in weaponsDict.items() if info['Expert
 
 
 # grimoire will contain all the spells in the game. Fill in using a spreadsheet, or maybe webscraping. Can extend with school, range, action type, ritual/concentration tags
-grimoire = { 
-    "Light": {
-        "level": 0,  # Cantrips are level 0
-        "description": "Create light",
-        "range": "Touch",
-        "components": ["V", "M"],
-        "material": "A firefly or phosphorescent moss"
-    },
-    "Mage Hand": {
-        "level": 0,  # Cantrips are level 0
-        "description": "Create a spectral hand that can manipulate objects",
-        "range": "30 feet",
-        "components": ["V", "S"],
-        "material": None
-    },
-    "Prestidigitation": {
-        "level": 0,  # Cantrips are level 0
-        "description": "Minor arcane tricks",
-        "range": "10 feet",
-        "components": ["V", "S"],
-        "material": None
-    },
-    "Minor Illusion": {
-        "level": 0,  # Cantrips are level 0
-        "description": "You create a sound or an image of an object within range",
-        "range": "30 feet",
-        "components": ["S", "M"],
-        "duration": "1 minute",
-        "material":  "A bit of fleece"
-    }
-}
+
+
+
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(script_dir, 'Grimoire.json')
+
+
+
+file = Path(file_path)
+
+
+
+with file.open('r', encoding='utf-8') as spells_file:
+    spells_data = json.load(spells_file)
+
+
+# One-liner to create the grimoire
+grimoire = {spell["name"]: spell for spell in spells_data}
+
 
 # Make spell list an attribute of charClass?
-wizardSpellList = ["Light", "Nage Hand", "Prestidigitation"]
 
 
 
 
 
-ASISchedules = {"Fighter":[4,6,8,12,14,16,19],"Monk":[4,8,12,16,19]}
+ASISchedules = {    "Fighter":[4,6,8,12,14,16,19],
+                    "Monk":[4,8,12,16,19]}
 
 
 
